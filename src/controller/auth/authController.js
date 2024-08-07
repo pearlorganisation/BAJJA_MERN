@@ -36,6 +36,7 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(password);
 
     if (!email || !password) {
       return res
@@ -48,10 +49,7 @@ export const login = async (req, res) => {
       return res.status(404).json({ success: false, message: "No user found" });
     }
 
-    const isValidPassword = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
+    const isValidPassword= await bcrypt.compare(password,existingUser[0]?.password)
 
     if (!isValidPassword) {
       return res
