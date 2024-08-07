@@ -42,8 +42,9 @@ export const login = async (req, res) => {
         .status(400)
         .json({ success: false, message: "All fields are required" });
     }
-    const existingUser = await User.findOne({ email });
-    if (!existingUser) {
+
+    const existingUser = await User.find({ email });
+    if (existingUser && existingUser < 1) {
       return res.status(404).json({ success: false, message: "No user found" });
     }
 
@@ -51,11 +52,13 @@ export const login = async (req, res) => {
       password,
       existingUser.password
     );
+
     if (!isValidPassword) {
       return res
         .status(401)
         .json({ success: false, message: "Wrong password" });
     }
+
     res
       .status(200)
       .json({ success: true, message: "User logged in successfully" });
