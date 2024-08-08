@@ -14,6 +14,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
+console.log(process.env.MONGODB_URI);
 
 app.listen(PORT, () => {
   mongoose

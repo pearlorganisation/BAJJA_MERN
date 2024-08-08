@@ -43,7 +43,7 @@ export const login = async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    if (!existingUser) {
       return res.status(404).json({ success: false, message: "No user found" });
     }
 
