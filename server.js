@@ -17,7 +17,7 @@ app.use("/api/v1/auth", authRoutes);
 
 app.listen(PORT, () => {
   mongoose
-    .connect("mongodb://localhost:27017/Bajja")
+    .connect(process.env.MONGODB_URI)
     .then(() => console.log("MongoDB connected"))
     .catch((error) => console.log(error));
   console.log(`Server is running on http://localhost:${PORT}`);
