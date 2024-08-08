@@ -57,10 +57,10 @@ export const login = async (req, res) => {
         .status(401)
         .json({ success: false, message: "Wrong password" });
     }
-
+    const api_key = existingUser.generateAccessToken();
     res
       .status(200)
-      .json({ success: true, message: "User logged in successfully" });
+      .json({ success: true, message: "User logged in successfully", api_key });
   } catch (error) {
     console.log(error);
     res.status(500).json({
