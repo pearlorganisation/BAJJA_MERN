@@ -16,11 +16,7 @@ export const signup = async (req, res) => {
         .json({ success: false, message: "User name must be unique" });
     }
     existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User already exists" });
-    }
+
     const regex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
     if (!regex.test(password)) {
@@ -40,7 +36,6 @@ export const signup = async (req, res) => {
       .status(201)
       .json({ success: true, message: "User register successfully" });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
       message: error?.message || "Internal server error",
