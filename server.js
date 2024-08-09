@@ -3,18 +3,22 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import authRoutes from "./src/routes/auth/authRoutes.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./src/configs/swaggerConfig.js";
+
 dotenv.config();
 const app = express();
 
 const PORT = process.env.PORT || 8000;
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
-console.log(process.env.MONGODB_URI);
+// app.use("/api/v1/post", postRoutes);
 
 app.listen(PORT, () => {
   mongoose
