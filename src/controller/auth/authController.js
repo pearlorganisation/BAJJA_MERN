@@ -69,14 +69,13 @@ export const login = async (req, res) => {
     }
 
     const api_key = existingUser.generateAccessToken();
-
     res.status(200).json({
       success: true,
       message: "User logged in successfully",
       api_key,
       userName: existingUser.userName,
       email: existingUser.email,
-      userRole: existingUser.useRole,
+      userRole: existingUser.userRole,
     });
   } catch (error) {
     console.log(error);

@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       match: [/^\d{10}$/, "Please enter a valid 10-digit mobile number"],
     },
-    useRole: {
+    userRole: {
       type: String,
       enum: ["buyer", "seller"],
       default: "buyer",

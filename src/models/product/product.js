@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
     photos: {
-      type: [String], // Assuming you are storing URLs or file paths as strings
+      type: [], 
       validate: {
         validator: function (value) {
           return value.length <= 4; // Maximum 4 photos
@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema(
       },
     },
     product_name: {
-      type: String, 
+      type: String,
       required: true,
     },
     type: {
@@ -36,12 +36,10 @@ const productSchema = new mongoose.Schema(
     minprice: {
       type: Number,
       required: true,
-      min: 0,
     },
     maxprice: {
       type: Number,
       required: true,
-      min: 0,
     },
   },
   {
