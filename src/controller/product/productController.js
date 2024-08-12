@@ -11,23 +11,24 @@ export const createPost = async (req, res) => {
       description,
       minprice,
       maxprice,
+      userId,
     } = req.body;
     const photos = req.files;
-
-    const minPriceNum = Number(minprice);
-    const maxPriceNum = Number(maxprice);
-
     if (
       !product_name ||
       !type ||
       !category ||
       !sub_category ||
       !description ||
-      !minPriceNum ||
-      !maxPriceNum
+      !minprice ||
+      !maxprice ||
+      !userId
     ) {
       return res.status(400).json({ message: "All fields are required." });
     }
+    const minPriceNum = Number(minprice);
+    const maxPriceNum = Number(maxprice);
+    const userIdNum = Number(userId);
 
     if (minPriceNum < 0 || maxPriceNum < 0) {
       return res
@@ -57,6 +58,7 @@ export const createPost = async (req, res) => {
       minprice: minPriceNum,
       maxprice: maxPriceNum,
       photos: response.result,
+      userId,
     });
 
     // Save the product to the database

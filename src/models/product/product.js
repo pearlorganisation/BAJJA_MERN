@@ -3,13 +3,18 @@ import mongoose from "mongoose";
 const productSchema = new mongoose.Schema(
   {
     photos: {
-      type: [], 
+      type: [],
       validate: {
         validator: function (value) {
           return value.length <= 4; // Maximum 4 photos
         },
         message: "You can upload a maximum of 4 photos.",
       },
+    },
+    userId: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: [true, "User id is required"],
     },
     product_name: {
       type: String,

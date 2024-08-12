@@ -7,6 +7,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./src/configs/swaggerConfig.js";
 import postRoutes from "./src/routes/product/productRoutes.js";
 import googleAuthRoutes from "./src/routes/googleAuth/googleAuthRoutes.js";
+import homeRoutes from "./src/routes/home/homeRoutes.js"
 
 dotenv.config();
 const app = express();
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/post", postRoutes);
 app.use("/api/v1/googleAuth", googleAuthRoutes);
+app.use("/api/v1/home", homeRoutes);
 
 app.listen(PORT, () => {
   mongoose
