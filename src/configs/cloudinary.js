@@ -33,8 +33,13 @@ export const uploadFileToCloudinary = async (files) => {
         }
       })
     );
-
-    return { status: true, result: resultArr.filter(Boolean) };
+    const result = resultArr.map((file) => ({
+      asset_id: file.asset_id,
+      secure_url: file.secure_url,
+      public_id: file.public_id,
+      created_at: file.created_at,
+    }));
+    return { status: true, result: result.filter(Boolean) };
   } catch (error) {
     return { status: false, message: error?.message };
   }

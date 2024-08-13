@@ -9,7 +9,7 @@ export const getAllBuyerProductPosts = async (req, res) => {
       });
     }
     const userId = req.user._id;
-    const productPosts = await Product.find({ userId }).populate("userId");
+    const productPosts = await Product.find({ userId });
     res.status(200).json({
       success: true,
       message: "All product post found",

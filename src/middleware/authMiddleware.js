@@ -5,7 +5,10 @@ export const authenticateToken = async (req, res, next) => {
   try {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1]; // Bearer token
-    if (token == null) return res.status(401); // If no token, return 401 Unauthorized
+    if (token == null)
+      return res
+        .status(401)
+        .json({ success: true, message: "Unauthorized user" });
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     if (!decoded) {
       return res.status(401).json({ success: false, message: "Invalid token" });
