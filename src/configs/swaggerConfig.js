@@ -7,7 +7,7 @@ const options = {
       title: "Bajja backend API endpoints",
       version: "1.0.0",
     },
-    servers: [{ url: "http://localhost:6000" }],
+    servers: [{ url: "https://bajja-mern.onrender.com" }],
     tags: [
       {
         name: "Auth",

@@ -7,7 +7,8 @@ import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./src/configs/swaggerConfig.js";
 import postRoutes from "./src/routes/product/productRoutes.js";
 import googleAuthRoutes from "./src/routes/googleAuth/googleAuthRoutes.js";
-import homeRoutes from "./src/routes/home/homeRoutes.js"
+import homeRoutes from "./src/routes/home/homeRoutes.js";
+import userRoutes from "./src/routes/user/userRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/post", postRoutes);
 app.use("/api/v1/googleAuth", googleAuthRoutes);
 app.use("/api/v1/home", homeRoutes);
