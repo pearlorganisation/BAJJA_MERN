@@ -9,6 +9,7 @@ import postRoutes from "./src/routes/product/productRoutes.js";
 import googleAuthRoutes from "./src/routes/googleAuth/googleAuthRoutes.js";
 import homeRoutes from "./src/routes/home/homeRoutes.js";
 import userRoutes from "./src/routes/user/userRoutes.js";
+import { error } from "./src/middleware/error.js";
 
 dotenv.config();
 const app = express();
@@ -26,6 +27,8 @@ app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/post", postRoutes);
 app.use("/api/v1/googleAuth", googleAuthRoutes);
 app.use("/api/v1/home", homeRoutes);
+
+app.use(error);
 
 app.listen(PORT, () => {
   mongoose

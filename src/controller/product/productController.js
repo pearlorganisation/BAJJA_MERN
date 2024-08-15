@@ -14,6 +14,8 @@ export const createPost = async (req, res) => {
       userId,
     } = req.body;
     const photos = req.files;
+    console.log(photos, "fileeee-----------------");
+
     if (
       !product_name ||
       !type ||
