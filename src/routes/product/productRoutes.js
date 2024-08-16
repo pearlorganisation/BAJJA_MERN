@@ -1,11 +1,18 @@
 import express from "express";
-import { createPost } from "../../controller/product/productController.js";
+import {
+  createProductPost,
+  updateProductPost,
+} from "../../controller/product/productController.js";
 import { upload } from "../../middleware/multer.js";
 import { authenticateToken } from "../../middleware/authMiddleware.js";
 const router = express.Router();
 
 router
-  .route("/postAdd")
-  .post(authenticateToken, upload.array("photos"), createPost);
+  .route("/")
+  .post(authenticateToken, upload.array("photos"), createProductPost);
+
+router
+  .route("/:productPostId")
+  .patch(authenticateToken, upload.array("photos"), updateProductPost);
 
 export default router;

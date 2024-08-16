@@ -38,20 +38,17 @@ export const signup = asyncHandler(async (req, res, next) => {
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res
-      .status(400)
-      .json({ success: false, message: "All fields are required" });
+    return next(new ApiError("All fields are required", 400));
   }
 
   const existingUser = await User.findOne({ email });
   if (!existingUser) {
-    return res.status(404).json({ success: false, message: "No user found" });
+    return next(new ApiError("No user found", 404));
   }
-
   const isValidPassword = await bcrypt.compare(password, existingUser.password);
 
   if (!isValidPassword) {
-    return res.status(401).json({ success: false, message: "Wrong password" });
+    return next(new ApiError("Wrong password", 401));
   }
 
   const api_key = existingUser.generateAccessToken();

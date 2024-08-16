@@ -2,13 +2,13 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
-import authRoutes from "./src/routes/auth/authRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./src/configs/swaggerConfig.js";
-import postRoutes from "./src/routes/product/productRoutes.js";
-import googleAuthRoutes from "./src/routes/googleAuth/googleAuthRoutes.js";
-import homeRoutes from "./src/routes/home/homeRoutes.js";
-import userRoutes from "./src/routes/user/userRoutes.js";
+import authRouter from "./src/routes/auth/authRoutes.js";
+import productPostRouter from "./src/routes/product/productRoutes.js";
+import googleAuthRouter from "./src/routes/googleAuth/googleAuthRoutes.js";
+import homeRouter from "./src/routes/home/homeRoutes.js";
+import userRouter from "./src/routes/user/userRoutes.js";
 import { error } from "./src/middleware/error.js";
 
 dotenv.config();
@@ -22,11 +22,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Routes
-app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/post", postRoutes);
-app.use("/api/v1/googleAuth", googleAuthRoutes);
-app.use("/api/v1/home", homeRoutes);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/productPost", productPostRouter);
+app.use("/api/v1/googleAuth", googleAuthRouter);
+app.use("/api/v1/home", homeRouter);
 
 app.use(error);
 
