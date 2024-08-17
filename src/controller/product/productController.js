@@ -47,6 +47,7 @@ export const createProductPost = async (req, res) => {
         .json({ message: "You must upload between 1 and 4 photos." });
     }
     const response = await uploadFileToCloudinary(photos);
+    console.log(response, "response");
     const product = new Product({
       product_name,
       type,
