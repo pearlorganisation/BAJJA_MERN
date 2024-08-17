@@ -22,13 +22,13 @@ export const createProductPost = async (req, res) => {
       !sub_category ||
       !description ||
       !minprice ||
-      !maxprice
+      !maxprice ||
+      photos.length === 0
     ) {
       return res.status(400).json({ message: "All fields are required." });
     }
     const minPriceNum = Number(minprice);
     const maxPriceNum = Number(maxprice);
-    // const userIdNum = Number(userId);
 
     if (minPriceNum < 0 || maxPriceNum < 0) {
       return res
@@ -47,7 +47,6 @@ export const createProductPost = async (req, res) => {
         .json({ message: "You must upload between 1 and 4 photos." });
     }
     const response = await uploadFileToCloudinary(photos);
-    console.log(response, "response");
     const product = new Product({
       product_name,
       type,

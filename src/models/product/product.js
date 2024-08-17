@@ -10,6 +10,7 @@ const productSchema = new mongoose.Schema(
         },
         message: "You can upload a maximum of 4 photos.",
       },
+      required: [true, "Photos are required"]
     },
     userId: {
       type: mongoose.Types.ObjectId,
