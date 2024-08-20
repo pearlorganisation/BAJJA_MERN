@@ -10,6 +10,7 @@ import googleAuthRouter from "./src/routes/googleAuth/googleAuthRoutes.js";
 import homeRouter from "./src/routes/home/homeRoutes.js";
 import userRouter from "./src/routes/user/userRoutes.js";
 import categoryRouter from "./src/routes/category/categoryRoutes.js";
+// import subCategoryRouter from "./src/routes/subCategory/subCategoryRoutes.js"; 
 import { error } from "./src/middleware/error.js";
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/googleAuth", googleAuthRouter);
 app.use("/api/v1/productPost", productPostRouter);
 app.use("/api/v1/categories", categoryRouter);
+// app.use("/api/v1/sub-categories", subCategoryRouter);
 app.use("/api/v1/home", homeRouter);
 
 app.use(error);

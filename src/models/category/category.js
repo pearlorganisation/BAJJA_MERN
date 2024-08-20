@@ -1,19 +1,21 @@
 import mongoose from "mongoose";
 
-
+const subCategorySchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Subcategory name is required"],
+    },
+  },
+  { _id: true }
+);
 const categorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: [true, "Category name is required"],
     },
-    sub_category: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "SubCategory",
-        required: [true, "Sub Category id is reqiuired"],
-      },
-    ],
+    sub_categories: [subCategorySchema],
   },
   { timestamps: true }
 );
