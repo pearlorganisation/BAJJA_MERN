@@ -4,6 +4,7 @@ import ApiError from "../../utils/ApiError.js";
 
 export const createCategory = asyncHandler(async (req, res, next) => {
   const { name, sub_categories } = req.body;
+  // console.log(sub_categories);
   if (!name || !sub_categories) {
     return next(new ApiError("All fields are required", 400));
   }
