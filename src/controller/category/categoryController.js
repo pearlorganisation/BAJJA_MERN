@@ -20,8 +20,11 @@ export const createCategory = asyncHandler(async (req, res, next) => {
 });
 
 export const getAllCategories = asyncHandler(async (req, res, next) => {
-  const categories = await Category.find({ type: req.body?.type });
-  if (!categories) {
+  const { type } = req.query;
+  const query = type ? { type } : {};
+  // console.log(query);
+  const categories = await Category.find(query);
+  if (!categories || categories.length === 0) {
     return next(new ApiError("Categories not found", 400));
   }
   return res.status(200).json({
