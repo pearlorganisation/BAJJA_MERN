@@ -10,8 +10,8 @@ import googleAuthRouter from "./src/routes/googleAuth/googleAuthRoutes.js";
 import homeRouter from "./src/routes/home/homeRoutes.js";
 import userRouter from "./src/routes/user/userRoutes.js";
 import categoryRouter from "./src/routes/category/categoryRoutes.js";
-// import subCategoryRouter from "./src/routes/subCategory/subCategoryRoutes.js"; 
 import { error } from "./src/middleware/error.js";
+import { connectToMongoDB } from "./src/configs/connectToMongoDB.js";
 
 dotenv.config();
 const app = express();
@@ -30,15 +30,14 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/googleAuth", googleAuthRouter);
 app.use("/api/v1/productPost", productPostRouter);
 app.use("/api/v1/categories", categoryRouter);
-// app.use("/api/v1/sub-categories", subCategoryRouter);
 app.use("/api/v1/home", homeRouter);
 
 app.use(error);
 
-app.listen(PORT, () => {
-  mongoose
-    .connect(process.env.MONGODB_URI)
-    .then(() => console.log("MongoDB connected"))
-    .catch((error) => console.log(error));
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+connectToMongoDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => console.log(`MongoDB Connection Failed!! ${error}`));

@@ -16,6 +16,11 @@ const categorySchema = new mongoose.Schema(
       required: [true, "Category name is required"],
       unique: [true, "Category name must be unique"],
     },
+    type: {
+      type: String,
+      enum: ["Goods", "Services"],
+      required: [true, "Category type is required"],
+    },
     sub_categories: [subCategorySchema],
   },
   { timestamps: true }

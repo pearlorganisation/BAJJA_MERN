@@ -1,3 +1,5 @@
+export const DB_NAME = "Bajja_DB";
+
 export const COOKIE_OPTIONS = {
   httpOnly: true,
   sameSite: "strict",
