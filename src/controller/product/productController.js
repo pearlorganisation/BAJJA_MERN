@@ -72,7 +72,7 @@ export const createProductPost = async (req, res) => {
 
 export const updateProductPost = asyncHandler(async (req, res, next) => {
   const { productPostId } = req.params;
-  const { minprice, maxprice, ...rest } = req.body;
+  const { minprice, maxprice, ...rest } = req.body; 
   const photos = req.files;
   if (!productPostId) {
     return next(new ApiError("Product ID is required", 400));
