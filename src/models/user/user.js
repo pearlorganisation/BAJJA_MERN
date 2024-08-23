@@ -31,10 +31,10 @@ const userSchema = new mongoose.Schema(
       // required: [true, "Password is required"],
       minlength: [6, "Password must be at least 6 characters"],
     },
-    // phoneNumber: {
-    //   type: String,
-    //   match: [/^\d{10}$/, "Please enter a valid 10-digit mobile number"],
-    // },
+    phoneNumber: {
+      type: String,
+      match: [/^\d{10}$/, "Please enter a valid 10-digit mobile number"],
+    },
     userRole: {
       type: String,
       enum: ["buyer", "seller"],

@@ -11,6 +11,9 @@ cloudinary.config({
 });
 
 export const uploadFileToCloudinary = async (files) => {
+  if (!Array.isArray(files)) {
+    files = [files];
+  }
   try {
     let resultArr = await Promise.all(
       files.map(async (file) => {
