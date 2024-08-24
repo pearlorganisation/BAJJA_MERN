@@ -9,7 +9,11 @@ export const getAllBuyerProductPosts = async (req, res) => {
       });
     }
     const userId = req.user._id;
-    const productPosts = await Product.find({ userId });
+    const productPosts = await Product.find({ userId }).sort({
+      createdAt: -1,
+      updatedAt: -1,
+    });
+
     res.status(200).json({
       success: true,
       message: "All product post found",

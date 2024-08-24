@@ -24,10 +24,8 @@ export const signup = asyncHandler(async (req, res, next) => {
       )
     );
   }
-  const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = await User.create({
     ...req?.body,
-    password: hashedPassword,
   });
 
   res
@@ -35,7 +33,7 @@ export const signup = asyncHandler(async (req, res, next) => {
     .json({ success: true, message: "User register successfully" });
 });
 
-export const login = asyncHandler(async (req, res) => {
+export const login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return next(new ApiError("All fields are required", 400));
@@ -45,7 +43,7 @@ export const login = asyncHandler(async (req, res) => {
   if (!existingUser) {
     return next(new ApiError("No user found", 404));
   }
-  const isValidPassword = await bcrypt.compare(password, existingUser.password);
+  const isValidPassword = await existingUser.isPasswordCorrect(password);
 
   if (!isValidPassword) {
     return next(new ApiError("Wrong password", 401));

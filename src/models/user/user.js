@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema(
   {
@@ -31,10 +32,10 @@ const userSchema = new mongoose.Schema(
       // required: [true, "Password is required"],
       minlength: [6, "Password must be at least 6 characters"],
     },
-    phoneNumber: {
-      type: String,
-      match: [/^\d{10}$/, "Please enter a valid 10-digit mobile number"],
-    },
+    // phoneNumber: {
+    //   type: String,
+    //   match: [/^\d{10}$/, "Please enter a valid 10-digit mobile number"],
+    // },
     userRole: {
       type: String,
       enum: ["buyer", "seller"],
@@ -43,6 +44,20 @@ const userSchema = new mongoose.Schema(
   },
   { timeStamps: true }
 );
+
+// Pre-save hook to hash password before saving it to DB
+userSchema.pre("save", async function (next) {
+  const user = this;
+  if (!user.isModified("password")) return next();
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(user.password, salt);
+  next();
+});
+
+userSchema.methods.isPasswordCorrect = async function (password) {
+  console.log(`password: ${password}`);
+  return await bcrypt.compare(password, this.password);
+};
 
 //Generate Access Token
 userSchema.methods.generateAccessToken = function () {
