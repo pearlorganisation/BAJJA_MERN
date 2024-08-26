@@ -24,7 +24,7 @@ import categoryRouter from "./src/routes/category/categoryRoutes.js";
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/googleAuth", googleAuthRouter);
-app.use("/api/v1/productPost", productPostRouter);
+app.use("/api/v1/product-posts", productPostRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/home", homeRouter);
 

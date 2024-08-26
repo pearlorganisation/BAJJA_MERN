@@ -16,7 +16,7 @@ const options = {
       // Add more tags here as needed
     ],
   },
-  apis: ["./src/routes/auth/*.js"], // Adjust the path as needed
+  apis: ["../routes/auth/*.js"],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

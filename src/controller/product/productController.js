@@ -72,7 +72,7 @@ export const createProductPost = async (req, res) => {
 
 export const updateProductPost = asyncHandler(async (req, res, next) => {
   const { productPostId } = req.params;
-  const { minprice, maxprice, ...rest } = req.body; 
+  const { minprice, maxprice, ...rest } = req.body;
   const photos = req.files;
   if (!productPostId) {
     return next(new ApiError("Product ID is required", 400));
@@ -133,4 +133,24 @@ export const updateProductPost = asyncHandler(async (req, res, next) => {
   });
 });
 
-
+export const deleteProductPost = asyncHandler(async (req, res, next) => {
+  const { productPostId } = req.params;
+  let productPost = await Product.findById(productPostId);
+  if (!productPost) {
+    return next(
+      new ApiErrorResponse(
+        `Product post not found with id of ${productPostId}`,
+        404
+      )
+    );
+  }
+  if (req.user?._id !== productPost.userId.toString()) {
+    return next(
+      new ApiError("Not authorized to delete this product post", 401)
+    );
+  }
+  await Product.deleteOne({ _id: productPostId });
+  return res
+    .status(200)
+    .json({ success: true, message: "Product post deleted successfully" });
+});

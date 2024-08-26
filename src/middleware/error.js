@@ -1,41 +1,50 @@
 import ApiError from "../utils/ApiError.js";
 
-export const error = (error, req, res, next) => {
-  error.statusCode = error.statusCode || 500;
-  error.message = error.message || "Internal server Error";
+// Error handling middleware
+export const error = (err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.message = err.message || "Internal Server Error";
 
-  //Some field validation is missing
-  if (error.name === "ValidationError") {
-    error = new ApiError(error.message, 400, error.stack); // can give cutomize message
+  // Handle Mongoose validation errors
+  if (err.name === "ValidationError") {
+    const message = `Validation Error: ${Object.values(err.errors)
+      .map((val) => val.message)
+      .join(", ")}`;
+    err = new ApiError(message, 400);
   }
 
-  // wrong mongodb id error
-  if (error.name === "CastError") {
-    const message = `Resources not found with this id.. Invalid ${error.path}`;
-    error = new ApiError(message, 400);
+  // Handle wrong MongoDB ObjectId errors 
+  if (err.name === "CastError") {
+    const message = `Resource not found with this ID. Invalid ${err.path}`;
+    err = new ApiError(message, 400);
   }
 
-  // Duplicate key error
-  if (error.code === 11000) {
-    const message = `Duplicate key '${Object.keys(error.keyValue)}' Entered`;
-    error = new ApiError(message, 400);
+  // Handle duplicate key errors
+  if (err.code === 11000) {
+    const message = `Duplicate key error: ${Object.keys(err.keyValue).join(
+      ", "
+    )} already exists.`;
+    err = new ApiError(message, 400);
   }
 
-  // wrong jwt error
-  if (error.name === "JsonWebTokenError") {
-    const message = `Your url is invalid please try again letter`;
-    error = new ApiError(message, 400);
+  // Handle JWT errors
+  if (err.name === "JsonWebTokenError") {
+    const message = "Invalid token. Please log in again.";
+    err = new ApiError(message, 401);
   }
 
-  // jwt expired
-  if (error.name === "TokenExpiredError") {
-    const message = `Your Url is expired please try again letter!`;
-    error = new ApiError(message, 400);
+  // Handle JWT token expiration
+  if (err.name === "TokenExpiredError") {
+    const message = "Token expired. Please log in again.";
+    err = new ApiError(message, 401);
   }
-  
-  res.status(error.statusCode).json({
+
+  // Log the error for debugging (use a logging library in production)
+  console.error(err);
+
+  res.status(err.statusCode).json({
     success: false,
-    message: error.message,
-    stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+    message: err.message,
+    stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
   });
 };

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { AVAILABLE_USER_ROLES, USER_ROLES_ENUM } from "../../../constants.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -38,8 +39,8 @@ const userSchema = new mongoose.Schema(
     // },
     userRole: {
       type: String,
-      enum: ["buyer", "seller"],
-      default: "buyer",
+      enum: AVAILABLE_USER_ROLES,
+      default: USER_ROLES_ENUM.BUYER,
     },
   },
   { timeStamps: true }
