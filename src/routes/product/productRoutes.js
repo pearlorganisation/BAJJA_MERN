@@ -1,7 +1,9 @@
 import express from "express";
 import {
+  createComment,
   createProductPost,
   deleteProductPost,
+  getComments,
   updateProductPost,
 } from "../../controller/product/productController.js";
 import { upload } from "../../middleware/multer.js";
@@ -9,7 +11,7 @@ import {
   authenticateToken,
   verifyPermission,
 } from "../../middleware/authMiddleware.js";
-import { AVAILABLE_USER_ROLES } from "../../../constants.js";
+import { AVAILABLE_USER_ROLES, USER_ROLES_ENUM } from "../../../constants.js";
 const router = express.Router();
 
 router
@@ -21,8 +23,17 @@ router
   .patch(authenticateToken, upload.array("photos"), updateProductPost)
   .delete(
     authenticateToken,
-    verifyPermission(AVAILABLE_USER_ROLES),
+    verifyPermission([USER_ROLES_ENUM.BUYER]),
     deleteProductPost
   );
+
+router
+  .route("/:productPostId/comments")
+  .post(
+    authenticateToken,
+    verifyPermission([USER_ROLES_ENUM.SELLER]),
+    createComment
+  )
+  .get(getComments);
 
 export default router;

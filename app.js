@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./src/configs/swaggerConfig.js";
-import { error } from "./src/middleware/error.js";
+import { errorHandler } from "./src/middleware/errorHandler.js";
 
 const app = express();
 
@@ -28,6 +28,6 @@ app.use("/api/v1/product-posts", productPostRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/home", homeRouter);
 
-app.use(error);
+app.use(errorHandler);
 
 export { app };

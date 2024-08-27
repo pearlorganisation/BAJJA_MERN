@@ -1,4 +1,5 @@
 import { uploadFileToCloudinary } from "../../configs/cloudinary.js";
+import Comment from "../../models/comment/comment.js";
 import Product from "../../models/product/product.js";
 import ApiError from "../../utils/ApiError.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
@@ -138,10 +139,7 @@ export const deleteProductPost = asyncHandler(async (req, res, next) => {
   let productPost = await Product.findById(productPostId);
   if (!productPost) {
     return next(
-      new ApiErrorResponse(
-        `Product post not found with id of ${productPostId}`,
-        404
-      )
+      new ApiError(`Product post not found with id of ${productPostId}`, 404)
     );
   }
   if (req.user?._id !== productPost.userId.toString()) {
@@ -153,4 +151,44 @@ export const deleteProductPost = asyncHandler(async (req, res, next) => {
   return res
     .status(200)
     .json({ success: true, message: "Product post deleted successfully" });
+});
+
+export const createComment = asyncHandler(async (req, res, next) => {
+  const { content } = req.body;
+  const { productPostId } = req.params;
+  const product = await Product.findById(productPostId);
+  const comment = await Comment.create({
+    content,
+    userId: req.user._id,
+    productPostId,
+  });
+
+  res.status(201).json({
+    success: true,
+    message: "Comment added successfully",
+    data: comment,
+  });
+});
+
+export const getComments = asyncHandler(async (req, res, next) => {
+  const { productPostId } = req.params;
+  const product = await Product.findById(productPostId);
+  if (!product) {
+    return next(new ApiError("Product not found", 404));
+  }
+  const comments = await Comment.find({ productPostId }).populate(
+    "userId",
+    "productPostId"
+  );
+
+  if (comments.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: "No comments found for this product post",
+    });
+  }
+  res.status(200).json({
+    success: true,
+    data: comments,
+  });
 });
