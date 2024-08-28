@@ -34,6 +34,6 @@ router
     verifyPermission([USER_ROLES_ENUM.SELLER]),
     createComment
   )
-  .get(getComments);
+  .get(authenticateToken, getComments);
 
 export default router;
