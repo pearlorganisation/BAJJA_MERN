@@ -178,9 +178,9 @@ export const getComments = asyncHandler(async (req, res, next) => {
   }
   const comments = await Comment.find({ productPostId }).populate(
     "userId",
-    "productPostId"
+    "profilePic userName"
   );
-
+  console.log(comments);
   if (comments.length === 0) {
     return res.status(404).json({
       success: false,
