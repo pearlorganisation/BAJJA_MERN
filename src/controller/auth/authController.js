@@ -4,19 +4,23 @@ import { asyncHandler } from "../../utils/asyncHandler.js";
 import ApiError from "../../utils/ApiError.js";
 
 export const signup = asyncHandler(async (req, res, next) => {
-  const { userName, email, password, userRole } = req.body;
-  if (!userName || !email || !password) {
+  const { firstName, lastName, username, email, password, userRole } = req.body;
+
+  if (!firstName || !lastName || !username || !email || !password) {
     return next(new ApiError("All fields are required", 400));
   }
-  let existingUser = await User.findOne({ userName });
-  if (existingUser) {
-    return next(new ApiError("User name must be unique", 400));
+  const existingUsername = await User.findOne({ username: req.body?.username });
+  if (existingUsername) {
+    return next(new ApiError("Username must be unique", 400));
   }
-  existingUser = await User.findOne({ email });
 
+  const existingUserEmail = await User.findOne({ email: req.body?.email }); 
+  if (existingUserEmail) {
+    return next(new ApiError("User already exists", 400));
+  }
   const regex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-  if (!regex.test(password)) {
+  if (!regex.test(req.body?.password)) {
     return next(
       new ApiError(
         "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",

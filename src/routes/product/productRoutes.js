@@ -11,7 +11,7 @@ import {
   authenticateToken,
   verifyPermission,
 } from "../../middleware/authMiddleware.js";
-import { AVAILABLE_USER_ROLES, USER_ROLES_ENUM } from "../../../constants.js";
+import { USER_ROLES_ENUM } from "../../../constants.js";
 const router = express.Router();
 
 router

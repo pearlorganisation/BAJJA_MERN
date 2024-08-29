@@ -5,27 +5,27 @@ import { AVAILABLE_USER_ROLES, USER_ROLES_ENUM } from "../../../constants.js";
 
 const userSchema = new mongoose.Schema(
   {
-    uid: {
+    firstName: {
       type: String,
-      default: null,
+      required: [true, "First name is required"],
     },
-    fid: {
+    lastName: {
       type: String,
-      default: null,
+      required: [true, "Last name is required"],
     },
     profilePic: {
       type: String,
       default: null,
     },
-    userName: {
+    username: {
       type: String,
       required: [true, "Username is required"],
-      unique: [true, "Username must be unique"],
+      unique: true
     },
     email: {
       type: String,
       required: [true, "Email is required"],
-      unique: [true, "Email already exists!!"],
+      unique: true,
       // match: [/\S+@\S+\.\S+/, "is invalid"],
     },
     password: {
@@ -37,6 +37,14 @@ const userSchema = new mongoose.Schema(
     //   type: String,
     //   match: [/^\d{10}$/, "Please enter a valid 10-digit mobile number"],
     // },
+    uid: {
+      type: String,
+      default: null,
+    },
+    fid: {
+      type: String,
+      default: null,
+    },
     userRole: {
       type: String,
       enum: AVAILABLE_USER_ROLES,

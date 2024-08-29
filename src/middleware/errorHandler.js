@@ -13,7 +13,7 @@ export const errorHandler = (err, req, res, next) => {
     err = new ApiError(message, 400);
   }
 
-  // Handle wrong MongoDB ObjectId errors 
+  // Handle wrong MongoDB ObjectId errors
   if (err.name === "CastError") {
     const message = `Resource not found with this ID. Invalid ${err.path}`;
     err = new ApiError(message, 400);
@@ -21,8 +21,9 @@ export const errorHandler = (err, req, res, next) => {
 
   // Handle duplicate key errors
   if (err.code === 11000) {
-    const message = `Duplicate key error: ${Object.keys(err.keyValue).join(
-      ", "
+    console.log(Object.keys(err.keyValue));
+    const message = `Duplicate key error: ${Object.keys(
+      err.keyValue
     )} already exists.`;
     err = new ApiError(message, 400);
   }
