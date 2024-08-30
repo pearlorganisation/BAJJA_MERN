@@ -1,26 +1,25 @@
 import Product from "../../models/product/product.js";
+import ApiError from "../../utils/ApiError.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 
-export const getAllBuyerProductPosts = async (req, res) => {
-  try {
-    const userRole = req.user.role;
-    if (userRole !== "buyer") {
-      return res.status(403).json({
-        message: "Access denied. Only buyers can access this endpoint.",
-      });
-    }
-    const userId = req.user._id;
-    const productPosts = await Product.find({ userId }).sort({
-      createdAt: -1,
-      updatedAt: -1,
-    });
-
-    res.status(200).json({
-      success: true,
-      message: "All product post found",
-      data: productPosts,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error." });
+export const getAllProductPosts = asyncHandler(async (req, res, next) => {
+  const userRole = req.user.role;
+  let filter = {};
+  if (userRole === "buyer") {
+    filter = { userId: req.user._id }; //Buyer can find his post
+  } else if (userRole === "seller") {
+    filter = {}; // All product post
+  } else {
+    return next(new ApiError("Access denied", 403));
   }
-};
+  const productPosts = await Product.find(filter).sort({
+    createdAt: -1,
+    updatedAt: -1,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "All product post found",
+    data: productPosts,
+  });
+});

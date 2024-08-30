@@ -1,5 +1,5 @@
 import { uploadFileToCloudinary } from "../../configs/cloudinary.js";
-import user from "../../models/user/user.js";
+// import user from "../../models/user/user.js";
 import User from "../../models/user/user.js";
 import ApiError from "../../utils/ApiError.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
@@ -61,7 +61,7 @@ export const updateUserProfile = asyncHandler(async (req, res, next) => {
 
   // Filter out allowed fields from reqBody
   Object.keys(reqBody).forEach((key) => {
-    if (allowedFields.includes(key)) {  
+    if (allowedFields.includes(key)) {
       if (key !== "new_password" && key !== "confirm_new_password") {
         filterReqObj[key] = reqBody[key];
       }
@@ -91,4 +91,32 @@ export const updateUserProfile = asyncHandler(async (req, res, next) => {
     message: "User is updated",
     user: updatedUser,
   });
+});
+
+// Change password controller
+export const changePassword = asyncHandler(async (req, res, next) => {
+  const { currentPassword, newPassword, confirmNewPassword } = req.body;
+  if (!req.user._id) {
+    return next(new ApiError("Unauthorized User", 401));
+  }
+
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    return next(new ApiError("User not found", 401));
+  }
+
+  const isPasswordValid = await user.isPasswordCorrect(currentPassword);
+  if (!isPasswordValid) {
+    return next(new ApiError("Wrong password", 400));
+  }
+
+  if (newPassword !== confirmNewPassword) {
+    return next(new ApiError("New passwords do not match", 400));
+  }
+
+  user.password = newPassword;
+  await user.save();
+  return res
+    .status(200)
+    .json({ success: true, message: "Password changed successfully" });
 });
