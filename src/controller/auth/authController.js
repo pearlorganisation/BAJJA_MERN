@@ -14,7 +14,7 @@ export const signup = asyncHandler(async (req, res, next) => {
     return next(new ApiError("Username must be unique", 400));
   }
 
-  const existingUserEmail = await User.findOne({ email: req.body?.email }); 
+  const existingUserEmail = await User.findOne({ email: req.body?.email });
   if (existingUserEmail) {
     return next(new ApiError("User already exists", 400));
   }
@@ -47,8 +47,8 @@ export const login = asyncHandler(async (req, res, next) => {
   if (!existingUser) {
     return next(new ApiError("No user found", 404));
   }
-  const isValidPassword = await existingUser.isPasswordCorrect(password);
 
+  const isValidPassword = await existingUser.isPasswordCorrect(password);
   if (!isValidPassword) {
     return next(new ApiError("Wrong password", 401));
   }
@@ -58,7 +58,7 @@ export const login = asyncHandler(async (req, res, next) => {
     success: true,
     message: "User logged in successfully",
     api_key,
-    userName: existingUser.userName,
+    username: existingUser.username,
     email: existingUser.email,
     userRole: existingUser.userRole,
   });

@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  changePassword,
   getUserProfile,
   updateUserProfile,
 } from "../../controller/user/userController.js";
@@ -13,4 +14,5 @@ router
   .get(authenticateToken, getUserProfile)
   .patch(authenticateToken, upload.single("profilePic"), updateUserProfile);
 
+router.route("/change-password").post(authenticateToken, changePassword);
 export default router;
