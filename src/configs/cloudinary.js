@@ -16,7 +16,7 @@ export const uploadFileToCloudinary = async (files) => {
   }
   try {
     let resultArr = await Promise.all(
-      files.map(async (file) => {
+      files.map(async (file) => { // [{},{},...]
         try {
           const res = await cloudinary.uploader.upload(file.path, {
             folder: "uploads",
@@ -29,7 +29,7 @@ export const uploadFileToCloudinary = async (files) => {
               console.log("File deleted from disk:", file.path);
             }
           });
-          return res;
+          return res; // {}
         } catch (uploadError) {
           console.error("Error uploading file:", uploadError);
           return null; // or handle error as per your requirement
