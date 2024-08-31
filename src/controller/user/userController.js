@@ -5,20 +5,13 @@ import ApiError from "../../utils/ApiError.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import bcrypt from "bcrypt";
 
-export const getUserProfile = async (req, res) => {
-  try {
-    const user = await User.findById(req.user?._id).select("-password");
-    if (!user) {
-      return res.status(200).json({ success: true, user });
-    }
-    return res.status(200).json({ success: true, user });
-  } catch (error) {
-    console.log("Error: ", error.message);
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal server error" });
+export const getUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user?._id).select("-password");
+  if (!user) {
+    return next(new ApiError("User not found", 404));
   }
-};
+  return res.status(200).json({ success: true, user });
+});
 
 export const updateUserProfile = asyncHandler(async (req, res, next) => {
   const reqBody = req.body;
@@ -108,6 +101,11 @@ export const changePassword = asyncHandler(async (req, res, next) => {
   const isPasswordValid = await user.isPasswordCorrect(currentPassword);
   if (!isPasswordValid) {
     return next(new ApiError("Wrong password", 400));
+  }
+  if (newPassword === currentPassword) {
+    return next(
+      new ApiError("New password can not be same as current password", 400)
+    );
   }
 
   if (newPassword !== confirmNewPassword) {
