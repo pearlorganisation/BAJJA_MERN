@@ -7,6 +7,7 @@ export const COOKIE_OPTIONS = {
 };
 
 export const USER_ROLES_ENUM = {
+  // ADMIN: "admin",
   BUYER: "buyer",
   SELLER: "seller",
 };

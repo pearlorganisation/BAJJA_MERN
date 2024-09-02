@@ -7,11 +7,9 @@ const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: [true, "First name is required"],
     },
     lastName: {
       type: String,
-      required: [true, "Last name is required"],
     },
     profilePic: {
       type: String,
@@ -20,7 +18,7 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       required: [true, "Username is required"],
-      unique: true
+      unique: true,
     },
     email: {
       type: String,
@@ -33,7 +31,7 @@ const userSchema = new mongoose.Schema(
       // required: [true, "Password is required"],
       minlength: [6, "Password must be at least 6 characters"],
     },
-    // phoneNumber: {
+    // mobileNumber: {
     //   type: String,
     //   match: [/^\d{10}$/, "Please enter a valid 10-digit mobile number"],
     // },

@@ -15,15 +15,12 @@ export const getUserProfile = asyncHandler(async (req, res) => {
 
 export const updateUserProfile = asyncHandler(async (req, res, next) => {
   const reqBody = req.body;
+  console.log(reqBody);
   const profilePic = req.file;
 
   const filterReqObj = {};
-  const allowedFields = [
-    "profilePic",
-    "userName",
-    "new_password",
-    "confirm_new_password",
-  ];
+  const allowedFields = ["profilePic", "username"];
+
   const hasValidFields = Object.keys(reqBody).some((key) =>
     allowedFields.includes(key)
   );
@@ -32,35 +29,13 @@ export const updateUserProfile = asyncHandler(async (req, res, next) => {
     return next(new ApiError("No valid fields provided to update", 400));
   }
 
-  // Handle new password and confirm password
-  if (reqBody.new_password || reqBody.confirm_new_password) {
-    if (!reqBody.new_password || !reqBody.confirm_new_password) {
-      return next(
-        new ApiError(
-          "Both new password and confirm new password are required",
-          400
-        )
-      );
-    }
-
-    if (reqBody.new_password !== reqBody.confirm_new_password) {
-      return next(
-        new ApiError("New password and confirm new password do not match", 400)
-      );
-    }
-    const salt = await bcrypt.genSalt(10);
-    filterReqObj.password = await bcrypt.hash(reqBody.new_password, salt);
-  }
-
   // Filter out allowed fields from reqBody
   Object.keys(reqBody).forEach((key) => {
     if (allowedFields.includes(key)) {
-      if (key !== "new_password" && key !== "confirm_new_password") {
-        filterReqObj[key] = reqBody[key];
-      }
+      filterReqObj[key] = reqBody[key];
     }
   });
-
+  
   // Handle profile picture upload
   if (profilePic) {
     const response = await uploadFileToCloudinary(profilePic);

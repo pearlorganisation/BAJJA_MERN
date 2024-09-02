@@ -8,7 +8,7 @@ export const getAllProductPosts = asyncHandler(async (req, res, next) => {
   if (userRole === "buyer") {
     filter = { userId: req.user._id }; //Buyer can find his post
   } else if (userRole === "seller") {
-    filter = {}; // All product post
+    filter = {}; // Seller can find all product post
   } else {
     return next(new ApiError("Access denied", 403));
   }
