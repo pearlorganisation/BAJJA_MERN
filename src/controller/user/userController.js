@@ -15,17 +15,15 @@ export const getUserProfile = asyncHandler(async (req, res) => {
 
 export const updateUserProfile = asyncHandler(async (req, res, next) => {
   const reqBody = req.body;
-  console.log(reqBody);
   const profilePic = req.file;
 
   const filterReqObj = {};
-  const allowedFields = ["profilePic", "username"];
-
-  const hasValidFields = Object.keys(reqBody).some((key) =>
+  const allowedFields = ["profilePic", "username", "firstName", "lastName"];
+  const hasValidFields = Object.keys(reqBody).some((key) => //False for empty array, when all test failed
     allowedFields.includes(key)
   );
 
-  if (!hasValidFields && !profilePic) {
+  if (!hasValidFields && !profilePic) { //When nothing is provided
     return next(new ApiError("No valid fields provided to update", 400));
   }
 
@@ -35,7 +33,7 @@ export const updateUserProfile = asyncHandler(async (req, res, next) => {
       filterReqObj[key] = reqBody[key];
     }
   });
-  
+
   // Handle profile picture upload
   if (profilePic) {
     const response = await uploadFileToCloudinary(profilePic);
