@@ -2,7 +2,7 @@ import User from "../../models/user/user.js";
 import ApiError from "../../utils/ApiError.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 
-export const googleAuth = asyncHandler(async (req, res) => {
+export const googleAuth = asyncHandler(async (req, res, next) => {
   const { uid, username, email, userRole } = req.body;
   if (!uid || !username || !email || !userRole) {
     return next(new ApiError("All fields are required", 400));
