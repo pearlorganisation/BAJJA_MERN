@@ -12,10 +12,13 @@ export const getAllProductPosts = asyncHandler(async (req, res, next) => {
   } else {
     return next(new ApiError("Access denied", 403));
   }
-  const productPosts = await Product.find(filter).sort({
-    createdAt: -1,
-    updatedAt: -1,
-  });
+
+  const productPosts = await Product.find(filter)
+    .sort({
+      createdAt: -1,
+      updatedAt: -1,
+    })
+    .limit(24);
 
   res.status(200).json({
     success: true,
