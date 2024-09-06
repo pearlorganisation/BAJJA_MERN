@@ -72,7 +72,7 @@ export const updateProductPost = asyncHandler(async (req, res, next) => {
   }
 
   const updateFields = { ...rest };
-  
+
   // Handle minprice validation and update
   if (minprice !== undefined) {
     const minPriceNum = Number(minprice);
@@ -172,7 +172,7 @@ export const getComments = asyncHandler(async (req, res, next) => {
     "userId",
     "profilePic username"
   );
-  console.log(comments);
+
   if (comments.length === 0) {
     return res.status(404).json({
       success: false,

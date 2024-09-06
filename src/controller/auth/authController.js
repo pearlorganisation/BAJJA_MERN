@@ -54,12 +54,11 @@ export const login = asyncHandler(async (req, res, next) => {
   }
 
   const api_key = existingUser.generateAccessToken();
+  existingUser.password = undefined;
   res.status(200).json({
     success: true,
     message: "User logged in successfully",
     api_key,
-    username: existingUser.username,
-    email: existingUser.email,
-    userRole: existingUser.userRole,
+    user: existingUser,
   });
 });
