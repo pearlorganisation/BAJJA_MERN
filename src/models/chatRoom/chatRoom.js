@@ -7,12 +7,12 @@ const chatRoomSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    buyerId: {
+    senderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    sellerId: {
+    receiverId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
