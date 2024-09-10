@@ -61,6 +61,9 @@ export const login = asyncHandler(async (req, res, next) => {
     api_key,
     user: {
       _id: existingUser._id,
+      username: existingUser.username,
+      email: existingUser.email,
+      userRole: existingUser.userRole,
     },
   });
 });

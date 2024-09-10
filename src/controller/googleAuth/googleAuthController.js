@@ -26,6 +26,9 @@ export const googleAuth = asyncHandler(async (req, res, next) => {
     token,
     user: {
       _id: existingUser._id,
+      username: existingUser.username,
+      email: existingUser.email,
+      userRole: existingUser.userRole,
     },
   });
 });
