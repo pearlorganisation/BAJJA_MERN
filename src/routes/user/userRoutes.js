@@ -1,6 +1,7 @@
 import express from "express";
 import {
   changePassword,
+  getSellerComments,
   getUserProfile,
   updateUserProfile,
 } from "../../controller/user/userController.js";
@@ -15,4 +16,5 @@ router
   .patch(authenticateToken, upload.single("profilePic"), updateUserProfile);
 
 router.route("/change-password").post(authenticateToken, changePassword);
+router.route("/my-comments").get(authenticateToken, getSellerComments); //Only for seller
 export default router;

@@ -1,9 +1,10 @@
 import { uploadFileToCloudinary } from "../../configs/cloudinary.js";
+import Comment from "../../models/comment/comment.js";
 // import user from "../../models/user/user.js";
 import User from "../../models/user/user.js";
 import ApiError from "../../utils/ApiError.js";
+import { ApiResponse } from "../../utils/ApiResponse.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
-import bcrypt from "bcrypt";
 
 export const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user?._id).select("-password");
@@ -19,11 +20,14 @@ export const updateUserProfile = asyncHandler(async (req, res, next) => {
 
   const filterReqObj = {};
   const allowedFields = ["profilePic", "username", "firstName", "lastName"];
-  const hasValidFields = Object.keys(reqBody).some((key) => //False for empty array, when all test failed
-    allowedFields.includes(key)
+  const hasValidFields = Object.keys(reqBody).some(
+    (
+      key //False for empty array, when all test failed
+    ) => allowedFields.includes(key)
   );
 
-  if (!hasValidFields && !profilePic) { //When nothing is provided
+  if (!hasValidFields && !profilePic) {
+    //When nothing is provided
     return next(new ApiError("No valid fields provided to update", 400));
   }
 
@@ -90,4 +94,14 @@ export const changePassword = asyncHandler(async (req, res, next) => {
   return res
     .status(200)
     .json({ success: true, message: "Password changed successfully" });
+});
+
+export const getSellerComments = asyncHandler(async (req, res, next) => {
+  const myComments = await Comment.find({ userId: req.user?._id });
+  if (!myComments || myComments.length === 0) {
+    return next(new ApiError("No comments found", 404));
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse("Comments retrieved successfully.", myComments, 200));
 });

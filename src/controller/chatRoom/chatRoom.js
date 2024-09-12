@@ -32,6 +32,18 @@ export const createChatRoom = asyncHandler(async (req, res, next) => {
     .json(new ApiResponse("Chat room created.", newRoom, 201));
 });
 
+export const deleteChatRoomById = asyncHandler(async (req, res, next) => {
+  const deletedChatRooom = await ChatRoom.findOneAndDelete({
+    roomId: req.params?.roomId,
+  });
+  if (!deletedChatRooom || deletedChatRooom.length === 0) {
+    return next(new ApiError("Chat room is not found.", 404));
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse("Chat room is deleted", null, 200)); // you can send [] 
+});
+
 export const getChatUsers = asyncHandler(async (req, res, next) => {
   const loggedInUser = req.user._id;
   const chatRooms = await ChatRoom.find({
