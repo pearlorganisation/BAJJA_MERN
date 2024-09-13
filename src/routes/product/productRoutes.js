@@ -2,8 +2,9 @@ import express from "express";
 import {
   createComment,
   createProductPost,
-  deleteProductPost,
+  deleteProductPostById,
   getComments,
+  getProductPostById,
   updateProductPost,
 } from "../../controller/product/productController.js";
 import { upload } from "../../middleware/multer.js";
@@ -20,11 +21,12 @@ router
 
 router
   .route("/:productPostId")
+  .get(authenticateToken, getProductPostById)
   .patch(authenticateToken, upload.array("photos"), updateProductPost)
   .delete(
     authenticateToken,
     verifyPermission([USER_ROLES_ENUM.BUYER]),
-    deleteProductPost
+    deleteProductPostById
   );
 
 router

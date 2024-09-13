@@ -31,5 +31,8 @@ app.use("/api/v1/home", homeRouter);
 app.use("/api/v1/chat-room", chatRoomRouter);
 
 app.use(errorHandler);
+app.use("*", (req, res) => {
+  res.status(404).json({ status: false, message: "Route not found" });
+});
 
 export { app };

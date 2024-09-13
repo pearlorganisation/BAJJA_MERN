@@ -2,9 +2,10 @@ import { uploadFileToCloudinary } from "../../configs/cloudinary.js";
 import Comment from "../../models/comment/comment.js";
 import Product from "../../models/product/product.js";
 import ApiError from "../../utils/ApiError.js";
+import { ApiResponse } from "../../utils/ApiResponse.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 
-export const createProductPost = asyncHandler(async (req, res) => {
+export const createProductPost = asyncHandler(async (req, res, next) => {
   const {
     product_name,
     type,
@@ -60,6 +61,18 @@ export const createProductPost = asyncHandler(async (req, res) => {
     message: "Product created successfully.",
     product,
   });
+});
+
+export const getProductPostById = asyncHandler(async (req, res, next) => {
+  const { productPostId } = req.params;
+  const productPost = await Product.findById(productPostId);
+  console.log(productPost);
+  if (!productPost) {
+    return next(new ApiError("Product post not found", 404));
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse("Product post found", productPost, 200));
 });
 
 export const updateProductPost = asyncHandler(async (req, res, next) => {
@@ -126,7 +139,7 @@ export const updateProductPost = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const deleteProductPost = asyncHandler(async (req, res, next) => {
+export const deleteProductPostById = asyncHandler(async (req, res, next) => {
   const { productPostId } = req.params;
   let productPost = await Product.findById(productPostId);
   if (!productPost) {

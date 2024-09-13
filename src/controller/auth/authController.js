@@ -2,6 +2,8 @@ import User from "../../models/user/user.js";
 import bcrypt from "bcrypt";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import ApiError from "../../utils/ApiError.js";
+import { COOKIE_OPTIONS } from "../../../constants.js";
+import { ApiResponse } from "../../utils/ApiResponse.js";
 
 export const signup = asyncHandler(async (req, res, next) => {
   const { firstName, lastName, username, email, password, userRole } = req.body;
@@ -66,4 +68,16 @@ export const login = asyncHandler(async (req, res, next) => {
       userRole: existingUser.userRole,
     },
   });
+});
+
+export const logout = asyncHandler(async (req, res, next) => {
+  try {
+    res
+      .cookie("access-token", "", { ...COOKIE_OPTIONS, maxAge: 0 })
+      .status(200)
+      .json(new ApiResponse("Logout successfully", null, 200));
+  } catch (error) {
+    console.log(`Error in logout: ${error.message}`);
+    return next(new ApiError("Error in logout", 500));
+  }
 });

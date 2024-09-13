@@ -96,6 +96,64 @@ export const changePassword = asyncHandler(async (req, res, next) => {
     .json({ success: true, message: "Password changed successfully" });
 });
 
+// export const forgotPassword = asyncHandler(async (req, res, next) => {
+//   const { email } = req.body;
+//   if (!email) {
+//     return next(new ApiError("Email is required", 400));
+//   }
+
+//   const existingUser = await User.findOne({ email });
+//   if (!existingUser) return next(new ApiError("No user found!!", 400));
+
+//   const resetToken = jwt.sign(
+//     { userId: existingUser._id, email },
+//     process.env.JWT_SECRET_KEY,
+//     {
+//       expiresIn: "1d",
+//     }
+//   );
+//   await sendForgotPasswordMail(email, resetToken)
+//     .then(() => {
+//       return res.status(200).json({
+//         success: true,
+//         message:
+//           "Mail sent successfully. Please check your email, including the spam or junk folder to reset your password.",
+//       });
+//     })
+//     .catch((error) => {
+//       res.status(400).json({
+//         success: false,
+//         message: `Unable to send mail! ${error.message}`,
+//       });
+//     });
+// });
+
+// export const resetPassword = asyncHandler(async (req, res, next) => {
+//   const { newPassword, confirmNewPassword } = req.body;
+//   const { token } = req.params;
+//   if (!newPassword || !confirmNewPassword) {
+//     return next(new ApiError("All field are required", 400));
+//   }
+//   if (newPassword !== confirmNewPassword) {
+//     return next(new ApiError("New passwords do not match", 400));
+//   }
+//   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+//   if (!decoded) {
+//     return next(new ApiError("Invalid token", 400));
+//   }
+
+//   const user = await User.findById(decoded.userId);
+//   if (!user) {
+//     return next(new ApiError("User not found", 401));
+//   }
+//   user.password = newPassword;
+//   await user.save();
+//   return res
+//     .status(200)
+//     .json({ success: true, message: "Password reset successfully" });
+// });
+
+
 export const getSellerComments = asyncHandler(async (req, res, next) => {
   const myComments = await Comment.find({ userId: req.user?._id });
   if (!myComments || myComments.length === 0) {
