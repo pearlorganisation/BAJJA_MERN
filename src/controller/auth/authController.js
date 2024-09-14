@@ -41,7 +41,7 @@ export const signup = asyncHandler(async (req, res, next) => {
 });
 
 export const login = asyncHandler(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, fcmToken } = req.body;
   if (!email || !password) {
     return next(new ApiError("All fields are required", 400));
   }
@@ -56,6 +56,12 @@ export const login = asyncHandler(async (req, res, next) => {
     return next(new ApiError("Wrong password", 401));
   }
 
+  // Update FCM token if provided
+  if (fcmToken) {
+    existingUser.fcmToken = fcmToken;
+    await existingUser.save();
+  }
+
   const api_key = existingUser.generateAccessToken();
   existingUser.password = undefined;
   res.status(200).json({
@@ -67,7 +73,7 @@ export const login = asyncHandler(async (req, res, next) => {
       username: existingUser.username,
       email: existingUser.email,
       userRole: existingUser.userRole,
-      fcmToken: existingUser.fcmToken
+      fcmToken: existingUser.fcmToken,
     },
   });
 });
@@ -83,3 +89,4 @@ export const logout = asyncHandler(async (req, res, next) => {
     return next(new ApiError("Error in logout", 500));
   }
 });
+ 

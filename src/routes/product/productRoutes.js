@@ -38,6 +38,5 @@ router
   )
   .get(authenticateToken, getComments);
 
-//comment update and delete
 
 export default router;

@@ -183,7 +183,7 @@ export const getComments = asyncHandler(async (req, res, next) => {
   }
   const comments = await Comment.find({ productPostId }).populate(
     "userId",
-    "profilePic username"
+    "profilePic username fcmToken"
   );
 
   if (comments.length === 0) {
