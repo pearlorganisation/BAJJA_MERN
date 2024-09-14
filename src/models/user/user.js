@@ -48,6 +48,10 @@ const userSchema = new mongoose.Schema(
       enum: AVAILABLE_USER_ROLES,
       default: USER_ROLES_ENUM.BUYER,
     },
+    fcmToken: {
+      type: String,
+      default: null, // Initially, the FCM token can be null until the user subscribes to notifications
+    },
   },
   { timeStamps: true }
 );
@@ -76,6 +80,12 @@ userSchema.methods.generateAccessToken = function () {
       expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
     }
   );
+};
+
+// Method to update the FCM token
+userSchema.methods.updateFcmToken = async function (newToken) {
+  this.fcmToken = newToken;
+  await this.save();
 };
 
 export default mongoose.model("User", userSchema);

@@ -25,7 +25,11 @@ export const getAllProductPosts = asyncHandler(async (req, res, next) => {
       createdAt: -1,
       updatedAt: -1,
     })
-    .limit(24);
+    .limit(24)
+    .populate({
+      path: "userId",
+      select: "-password", // Exclude the password field from the populated user data
+    })
   if (productPosts.length === 0) {
     return res
       .status(200)

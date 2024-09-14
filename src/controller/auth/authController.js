@@ -6,7 +6,8 @@ import { COOKIE_OPTIONS } from "../../../constants.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 
 export const signup = asyncHandler(async (req, res, next) => {
-  const { firstName, lastName, username, email, password, userRole } = req.body;
+  const { firstName, lastName, username, email, password, userRole, fcmToken } =
+    req.body;
 
   if (!firstName || !lastName || !username || !email || !password) {
     return next(new ApiError("All fields are required", 400));
@@ -66,6 +67,7 @@ export const login = asyncHandler(async (req, res, next) => {
       username: existingUser.username,
       email: existingUser.email,
       userRole: existingUser.userRole,
+      fcmToken: existingUser.fcmToken
     },
   });
 });
