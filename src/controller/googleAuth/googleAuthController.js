@@ -15,7 +15,7 @@ export const googleAuth = asyncHandler(async (req, res, next) => {
   } else if (!existingUser.uid) {
     // If the user exists but doesn't have a googleId, add it
     existingUser.uid = uid;
-    existingUser.userRole = userRole;
+    existingUser.userRole = userRole; // previous role will be replaced by google login user role
     existingUser.fcmToken = fcmToken; //Need to update it every time when login
     await existingUser.save();
   }
