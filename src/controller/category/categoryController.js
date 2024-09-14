@@ -1,13 +1,9 @@
 import Category from "../../models/category/category.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import ApiError from "../../utils/ApiError.js";
+import { ApiResponse } from "../../utils/ApiResponse.js";
 
 export const createCategory = asyncHandler(async (req, res, next) => {
-  const { name, type, sub_categories } = req.body;
-  // console.log(sub_categories);
-  // if (!name || !type || !sub_categories) {
-  //   return next(new ApiError("All fields are required", 400));
-  // }
   const category = await Category.create(req.body);
   if (!category) {
     return next(new ApiError("Category not created", 400));
@@ -36,4 +32,20 @@ export const getAllCategories = asyncHandler(async (req, res, next) => {
     message: "All categories are found",
     data: categories,
   });
+});
+
+export const updateCategoryById = asyncHandler(async (req, res, next) => {
+  
+});
+
+export const deleteCategoryById = asyncHandler(async (req, res, next) => {
+  const deletedCategory = await Category.findByIdAndDelete(
+    req.params?.categoryId
+  ); // Return null if doc not found, if found return deleted doc
+  if (!deletedCategory) {
+    return next(new ApiError("Category not found", 404));
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse("Category is deleted", null, 200));
 });
