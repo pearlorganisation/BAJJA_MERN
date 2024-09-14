@@ -10,12 +10,13 @@ export const googleAuth = asyncHandler(async (req, res, next) => {
   let existingUser = await User.findOne({ email });
   if (!existingUser) {
     // Create a new user if they don't exist
-    existingUser = new User({ uid, username, email, userRole });
+    existingUser = new User({ uid, username, email, userRole, fcmToken });
     await existingUser.save();
   } else if (!existingUser.uid) {
     // If the user exists but doesn't have a googleId, add it
     existingUser.uid = uid;
     existingUser.userRole = userRole;
+    existingUser.fcmToken = fcmToken; //Need to update it every time when login
     await existingUser.save();
   }
   const token = existingUser.generateAccessToken();
@@ -29,6 +30,7 @@ export const googleAuth = asyncHandler(async (req, res, next) => {
       username: existingUser.username,
       email: existingUser.email,
       userRole: existingUser.userRole,
+      fcmToken: existingUser.fcmToken,
     },
   });
 });
