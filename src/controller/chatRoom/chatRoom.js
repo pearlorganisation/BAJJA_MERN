@@ -60,7 +60,7 @@ export const getChatUsers = asyncHandler(async (req, res, next) => {
   const chatUsers = userIds.filter((userId) => loggedInUser !== userId);
   // console.log(chatUsers);
   const users = await User.find({ _id: { $in: chatUsers } }).select(
-    "profilePic _id username"
+    "profilePic _id username fcmToken"
   );
   return res
     .status(200)

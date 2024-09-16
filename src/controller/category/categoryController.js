@@ -35,7 +35,56 @@ export const getAllCategories = asyncHandler(async (req, res, next) => {
 });
 
 export const updateCategoryById = asyncHandler(async (req, res, next) => {
-  
+  const { id } = req.params;
+  const { name, type, sub_categories } = req.body;
+
+  // Validate category type
+  if (type && !["Goods", "Services"].includes(type)) {
+    return next(new ApiResponse("Invalid category type", 400));
+  }
+
+  // Build update data (only for name and type)
+  const updateData = {};
+  if (name) updateData.name = name;
+  if (type) updateData.type = type;
+
+  // Find the category by ID
+  const category = await Category.findById(id);
+
+  if (!category) {
+    return next(new ApiResponse("Category not found", 404));
+  }
+
+  // If sub_categories is provided, we handle it
+  if (sub_categories) {
+    sub_categories.forEach((subCategory) => {
+      const existingSubCategory = category.sub_categories.find(
+        (item) =>
+          item._id?.toString() === subCategory._id ||
+          item.name === subCategory.name
+      );
+
+      if (existingSubCategory) {
+        // Update the existing subcategory if it exists
+        existingSubCategory.name = subCategory.name;
+      } else {
+        // Add a new subcategory if it doesn't exist
+        category.sub_categories.push(subCategory);
+      }
+    });
+  }
+
+  // Update other fields like name and type
+  if (name) category.name = name;
+  if (type) category.type = type;
+
+  // Save the updated category
+  const updatedCategory = await category.save();
+
+  res.status(200).json({
+    success: true,
+    data: updatedCategory,
+  });
 });
 
 export const deleteCategoryById = asyncHandler(async (req, res, next) => {
