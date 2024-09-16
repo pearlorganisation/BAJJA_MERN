@@ -35,7 +35,13 @@ export const getAllCategories = asyncHandler(async (req, res, next) => {
 });
 
 export const updateCategoryById = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
+  const { categoryId } = req.params;
+  const category = await Category.findById(categoryId);
+
+  if (!category) {
+    return next(new ApiResponse("Category not found", 404));
+  }
+
   const { name, type, sub_categories } = req.body;
 
   // Validate category type
@@ -43,27 +49,12 @@ export const updateCategoryById = asyncHandler(async (req, res, next) => {
     return next(new ApiResponse("Invalid category type", 400));
   }
 
-  // Build update data (only for name and type)
-  const updateData = {};
-  if (name) updateData.name = name;
-  if (type) updateData.type = type;
-
-  // Find the category by ID
-  const category = await Category.findById(id);
-
-  if (!category) {
-    return next(new ApiResponse("Category not found", 404));
-  }
-
-  // If sub_categories is provided, we handle it
+ //Update subcategory by _id, or if no _id provided then create new subcategory || [ Update and Create ] together
   if (sub_categories) {
     sub_categories.forEach((subCategory) => {
       const existingSubCategory = category.sub_categories.find(
-        (item) =>
-          item._id?.toString() === subCategory._id ||
-          item.name === subCategory.name
+        (item) => item._id?.toString() === subCategory._id
       );
-
       if (existingSubCategory) {
         // Update the existing subcategory if it exists
         existingSubCategory.name = subCategory.name;
