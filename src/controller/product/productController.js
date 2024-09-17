@@ -186,7 +186,7 @@ export const getComments = asyncHandler(async (req, res, next) => {
     "profilePic username fcmToken"
   );
 
-  if (comments.length === 0) {
+  if (!comments || comments.length === 0) {
     return res.status(404).json({
       success: false,
       message: "No comments found for this product post",
