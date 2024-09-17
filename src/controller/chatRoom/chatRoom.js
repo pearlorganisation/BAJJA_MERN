@@ -10,8 +10,8 @@ export const createChatRoom = asyncHandler(async (req, res, next) => {
 
   const existingChatRoom = await ChatRoom.findOne({
     $or: [
-      { senderId, receiverId }, //Whoever has initiate the chat is hitting the api to get chats
-      { senderId: receiverId, receiverId: senderId }, //The person who didn't start the chat is now hitting the api to get all his chat with the receiver
+      { senderId, receiverId }, //Whoever has initiate the chat is hitting the api to get chats - buyer
+      { senderId: receiverId, receiverId: senderId }, //The person who didn't start the chat is now hitting the api to get all his chat with the receiver - seller
     ],
   });
   if (existingChatRoom) {
@@ -47,7 +47,7 @@ export const deleteChatRoomById = asyncHandler(async (req, res, next) => {
 export const getChatUsers = asyncHandler(async (req, res, next) => {
   const loggedInUser = req.user._id;
   const chatRooms = await ChatRoom.find({
-    $or: [{ receiverId: loggedInUser }, { senderId: loggedInUser }],
+    $or: [{ receiverId: loggedInUser }, { senderId: loggedInUser }], //work for both buyer and seller
   });
   if (!chatRooms || chatRooms.length === 0) {
     return next(new ApiError("No chat history found.", 404));
