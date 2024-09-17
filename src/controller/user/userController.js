@@ -1,10 +1,14 @@
 import { uploadFileToCloudinary } from "../../configs/cloudinary.js";
 import Comment from "../../models/comment/comment.js";
+import OTP from "../../models/otp/otp.js";
 // import user from "../../models/user/user.js";
 import User from "../../models/user/user.js";
 import ApiError from "../../utils/ApiError.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
+import { PASSWORD_RESET_REQUEST_TEMPLATE } from "../../utils/email/emailTemplates.js";
+import { sendEmail } from "../../utils/email/sendEmailService.js";
+import { generateOTP } from "../../utils/generateOTP.js";
 
 export const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user?._id).select("-password");
@@ -96,63 +100,75 @@ export const changePassword = asyncHandler(async (req, res, next) => {
     .json({ success: true, message: "Password changed successfully" });
 });
 
-// export const forgotPassword = asyncHandler(async (req, res, next) => {
-//   const { email } = req.body;
-//   if (!email) {
-//     return next(new ApiError("Email is required", 400));
-//   }
+export const forgotPassword = asyncHandler(async (req, res, next) => {
+  const { email } = req.body;
+  if (!email) {
+    return next(new ApiError("Email is required", 400));
+  }
 
-//   const existingUser = await User.findOne({ email });
-//   if (!existingUser) return next(new ApiError("No user found!!", 400));
+  const existingUser = await User.findOne({ email });
+  if (!existingUser) return next(new ApiError("No user found.", 400));
 
-//   const resetToken = jwt.sign(
-//     { userId: existingUser._id, email },
-//     process.env.JWT_SECRET_KEY,
-//     {
-//       expiresIn: "1d",
-//     }
-//   );
-//   await sendForgotPasswordMail(email, resetToken)
-//     .then(() => {
-//       return res.status(200).json({
-//         success: true,
-//         message:
-//           "Mail sent successfully. Please check your email, including the spam or junk folder to reset your password.",
-//       });
-//     })
-//     .catch((error) => {
-//       res.status(400).json({
-//         success: false,
-//         message: `Unable to send mail! ${error.message}`,
-//       });
-//     });
-// });
+  // Generate a new OTP
+  const otp = generateOTP();
+  //finone and update for updating the 2 otp doc for one email
+  
+  await OTP.create({
+    email,
+    otp,
+  });
 
-// export const resetPassword = asyncHandler(async (req, res, next) => {
-//   const { newPassword, confirmNewPassword } = req.body;
-//   const { token } = req.params;
-//   if (!newPassword || !confirmNewPassword) {
-//     return next(new ApiError("All field are required", 400));
-//   }
-//   if (newPassword !== confirmNewPassword) {
-//     return next(new ApiError("New passwords do not match", 400));
-//   }
-//   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-//   if (!decoded) {
-//     return next(new ApiError("Invalid token", 400));
-//   }
+  const html = PASSWORD_RESET_REQUEST_TEMPLATE(otp);
+  await sendEmail({
+    email,
+    subject: "Your Password Reset OTP",
+    html,
+  })
+    .then(() => {
+      return res.status(200).json({
+        success: true,
+        message:
+          "Mail sent successfully. Please check your email, including the spam or junk folder to reset your password.",
+      });
+    })
+    .catch((error) => {
+      res.status(400).json({
+        success: false,
+        message: `Unable to send mail! ${error.message}`,
+      });
+    });
+});
 
-//   const user = await User.findById(decoded.userId);
-//   if (!user) {
-//     return next(new ApiError("User not found", 401));
-//   }
-//   user.password = newPassword;
-//   await user.save();
-//   return res
-//     .status(200)
-//     .json({ success: true, message: "Password reset successfully" });
-// });
+export const resetPassword = asyncHandler(async (req, res, next) => {
+  const { email, otp, newPassword, confirmNewPassword } = req.body;
+  if (!email || !otp || !newPassword || !confirmNewPassword) {
+    return next(new ApiError("All fields are required", 400));
+  }
+  if (newPassword !== confirmNewPassword) {
+    return next(new ApiError("New passwords do not match", 400));
+  }
 
+  const user = await User.findOne({ email });
+  if (!user) {
+    return next(new ApiError("User not found", 404));
+  }
+
+  //If user exists, check for its otp creation
+  const storedOtp = await OTP.findOne({ email, otp });
+  if (!storedOtp) {
+    //If otp doc deleted automatically means it expires after 5 min
+    return next(new ApiError("Invalid or expired OTP", 400));
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  //Delete the OTP from the database after successful password reset.
+  await OTP.deleteOne({ email, otp });
+  return res
+    .status(200)
+    .json({ success: true, message: "Password reset successfully" });
+});
 
 export const getSellerComments = asyncHandler(async (req, res, next) => {
   const myComments = await Comment.find({ userId: req.user?._id });

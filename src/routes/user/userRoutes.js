@@ -1,10 +1,10 @@
 import express from "express";
 import {
   changePassword,
-  // forgotPassword,
+  forgotPassword,
   getSellerComments,
   getUserProfile,
-  // resetPassword,
+  resetPassword,
   updateUserProfile,
 } from "../../controller/user/userController.js";
 import { authenticateToken } from "../../middleware/authMiddleware.js";
@@ -18,8 +18,8 @@ router
   .patch(authenticateToken, upload.single("profilePic"), updateUserProfile);
 
 router.route("/change-password").post(authenticateToken, changePassword);
-// router.route("/forgot-password").post(forgotPassword);
-// router.route("/reset-password/:token").post(resetPassword);
+router.route("/forgot-password").post(forgotPassword);
+router.route("/reset-password").post(resetPassword);
 router.route("/my-comments").get(authenticateToken, getSellerComments); //Only for seller
 
 export default router;
