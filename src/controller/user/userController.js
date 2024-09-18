@@ -108,15 +108,21 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
 
   const existingUser = await User.findOne({ email });
   if (!existingUser) return next(new ApiError("No user found.", 400));
-
   // Generate a new OTP
   const otp = generateOTP();
-  //finone and update for updating the 2 otp doc for one email
-  
-  await OTP.create({
-    email,
-    otp,
-  });
+
+  //For the first time when user hit this api it return null || If No Document is Found, it returns null.
+  const existingOTP = await OTP.findOneAndUpdate(
+    { email },
+    { $set: { otp } },
+    { new: true } // Return updated doc
+  );
+  if (!existingOTP) {
+    await OTP.create({
+      email,
+      otp,
+    });
+  }
 
   const html = PASSWORD_RESET_REQUEST_TEMPLATE(otp);
   await sendEmail({
