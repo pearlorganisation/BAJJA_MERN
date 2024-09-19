@@ -1,14 +1,15 @@
 import express from "express";
+import { authenticateToken } from "../../middleware/authMiddleware.js";
+import { upload } from "../../middleware/multer.js";
 import {
   changePassword,
+  deleteUser,
   forgotPassword,
   getSellerComments,
   getUserProfile,
   resetPassword,
   updateUserProfile,
 } from "../../controller/user/userController.js";
-import { authenticateToken } from "../../middleware/authMiddleware.js";
-import { upload } from "../../middleware/multer.js";
 
 const router = express.Router();
 
@@ -21,5 +22,6 @@ router.route("/change-password").post(authenticateToken, changePassword);
 router.route("/forgot-password").post(forgotPassword);
 router.route("/reset-password").post(resetPassword);
 router.route("/my-comments").get(authenticateToken, getSellerComments); //Only for seller
+router.route("/:userId").delete(authenticateToken, deleteUser);
 
 export default router;

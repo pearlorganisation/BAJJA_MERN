@@ -67,7 +67,6 @@ export const updateUserProfile = asyncHandler(async (req, res, next) => {
   });
 });
 
-// Change password controller
 export const changePassword = asyncHandler(async (req, res, next) => {
   const { currentPassword, newPassword, confirmNewPassword } = req.body;
   if (!req.user._id) {
@@ -184,4 +183,16 @@ export const getSellerComments = asyncHandler(async (req, res, next) => {
   return res
     .status(200)
     .json(new ApiResponse("Comments retrieved successfully.", myComments, 200));
+});
+
+export const deleteUser = asyncHandler(async (req, res, next) => {
+  const { userId } = req.params;
+  if (req.user?._id !== userId) {
+    return next(new ApiError("Unauthorized user", 401));
+  }
+  const deletedUser = await User.findByIdAndDelete(userId);
+  if (!deleteUser) {
+    return next(new ApiError("User is not deleted", 404));
+  }
+  return res.status(200).json(new ApiResponse("User is deleted", null, 200));
 });

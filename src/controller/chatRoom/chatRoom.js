@@ -45,45 +45,39 @@ export const deleteChatRoomById = asyncHandler(async (req, res, next) => {
 });
 
 export const getChatUsers = asyncHandler(async (req, res, next) => {
-  const loggedInUser = req.user._id;
+  const loggedInUser = req.user._id; // logged in user can be any body - buyer or seller
+
   const chatRooms = await ChatRoom.find({
     $or: [{ receiverId: loggedInUser }, { senderId: loggedInUser }], //work for both buyer and seller
   });
-  // console.log(chatRooms);
+
   if (!chatRooms) {
     return next(new ApiError("No chat history found.", 404));
   }
 
-  // Extract user IDs and room IDs
+  // Extract loggedIn user Id, user IDs and room IDs
   const chatData = chatRooms.map((room) => ({
     roomId: room.roomId, // Extracting roomId
     senderId: room.senderId.toString(),
     receiverId: room.receiverId.toString(),
   }));
-  // console.log(chatData);
 
-  // Filter out logged-in user's own ID and get chat partner's ID
-  const chatUsers = chatData
-    .filter(
-      (data) =>
-        data.senderId !== loggedInUser.toString() ||
-        data.receiverId !== loggedInUser.toString()
-    )
-    .map((data) => ({
-      userId: loggedInUser === data.senderId ? data.receiverId : data.senderId,
-      roomId: data.roomId, // Attach the roomId to the response
-    }));
-  // console.log(chatUsers);
+  // Filter out userId whome loggedin user chatted with and get the room ID too.
+  const chatUsers = chatData.map((data) => ({
+    userId: loggedInUser === data.senderId ? data.receiverId : data.senderId,
+    roomId: data.roomId,
+  }));
 
   // Get details of users from the filtered chat user IDs
   const users = await User.find({
     _id: { $in: chatUsers.map((chatUser) => chatUser.userId) },
-  }).select("profilePic _id username fcmToken");
-  // console.log(users);
+  })
+    .select("profilePic _id username fcmToken")
+    .lean();
 
   // Include roomId in the response alongside user details
   const usersWithRoomId = users.map((user) => ({
-    ...user.toObject(), // Convert Mongoose document to plain object
+    ...user, //Convert Mongoose doc to plain object use [user.toObject() ]  or [ user.toJSON() ], No need to use Since lean already returns plain objects
     roomId: chatUsers.find(
       (chatUser) => chatUser.userId === user._id.toString()
     ).roomId,
