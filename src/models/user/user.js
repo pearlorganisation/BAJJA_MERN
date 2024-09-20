@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema(
     },
     fcmToken: {
       type: String,
-      default: null, // Initially, the FCM token can be null until the user subscribes to notifications
+      default: null, 
     },
   },
   { timeStamps: true }
