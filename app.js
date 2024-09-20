@@ -1,5 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./src/configs/swaggerConfig.js";
 import { errorHandler } from "./src/middleware/errorHandler.js";
@@ -8,6 +9,12 @@ const app = express();
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow requests from this origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static("uploads"));
