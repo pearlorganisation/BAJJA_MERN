@@ -16,7 +16,7 @@ export const createProductPost = asyncHandler(async (req, res, next) => {
     maxprice,
   } = req.body;
   const photos = req.files;
-  console.log(photos);
+
   if (
     !product_name ||
     !type ||
