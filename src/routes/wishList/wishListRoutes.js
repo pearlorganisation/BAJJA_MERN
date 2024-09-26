@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addToWishList,
+  getUserWishList,
   removeFromWishList,
 } from "../../controller/wishList/wishListController.js";
 import {
@@ -17,6 +18,11 @@ router
     authenticateToken,
     verifyPermission([USER_ROLES_ENUM.SELLER]),
     addToWishList
+  )
+  .get(
+    authenticateToken,
+    verifyPermission([USER_ROLES_ENUM.SELLER]),
+    getUserWishList
   )
   .delete(
     authenticateToken,

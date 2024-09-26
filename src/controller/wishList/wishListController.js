@@ -18,7 +18,7 @@ export const addToWishList = asyncHandler(async (req, res, next) => {
     wishList = await WishList.create({ userId, productPost: [] });
   }
 
-  if (!wishList.productPost.includes(productPostId)) {
+  if (!wishList.productPost.includes(productPostId)) { // avoid duplication of same id
     wishList.productPost.push(productPostId);
     await wishList.save();
   }
@@ -58,6 +58,24 @@ export const removeFromWishList = asyncHandler(async (req, res, next) => {
       new ApiResponse(
         "Product post removed from wishlist successfully",
         wishList,
+        200
+      )
+    );
+});
+
+export const getUserWishList = asyncHandler(async (req, res, next) => {
+  const userId = req.user._id;
+  const wishList = await WishList.findOne({ userId }).populate("productPost");
+  
+  if (!wishList || wishList.productPost.length === 0) {
+    return next(new ApiError("No products found in your wishlist", 404));
+  }
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        "Wishlist fetched successfully",
+        wishList.productPost,
         200
       )
     );
