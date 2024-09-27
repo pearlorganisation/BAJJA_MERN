@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: "*", // Allow requests from any origin
-    methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], // Specify allowed methods
   })
 );
 app.use(express.urlencoded({ extended: true }));
