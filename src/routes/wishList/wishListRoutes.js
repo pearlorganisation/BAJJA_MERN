@@ -1,7 +1,7 @@
 import express from "express";
 import {
   addToWishList,
-  clearWishList,
+  clearUserWishList,
   getUserWishList,
   removeFromWishList,
 } from "../../controller/wishList/wishListController.js";
@@ -31,13 +31,13 @@ router
     removeFromWishList // Route to remove a particular product from wishlist
   );
 
-// Route to clear the wishlist for logged in user
+// Route to clear the wishlist of logged in user
 router
   .route("/clear")
   .delete(
     authenticateToken,
     verifyPermission([USER_ROLES_ENUM.SELLER]),
-    clearWishList
+    clearUserWishList
   );
 
 export default router;

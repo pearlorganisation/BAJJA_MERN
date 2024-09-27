@@ -92,7 +92,7 @@ export const getUserWishList = asyncHandler(async (req, res, next) => {
     );
 });
 
-export const clearWishList = asyncHandler(async (req, res, next) => {
+export const clearUserWishList = asyncHandler(async (req, res, next) => {
   const userId = req.user._id;
   let wishList = await WishList.findOne({ userId });
 
