@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const wishListSchema = new mongoose.Schema(
+const favouriteSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -12,6 +12,6 @@ const wishListSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const WishList = mongoose.model("WishList", wishListSchema);
+const Favourite = mongoose.model("Favourite", favouriteSchema);
 
-export default WishList;
+export default Favourite;

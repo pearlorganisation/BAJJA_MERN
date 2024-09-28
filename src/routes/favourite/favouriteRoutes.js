@@ -1,9 +1,9 @@
 import express from "express";
 import {
-  clearUserWishList,
-  getUserWishList,
-  toggleWishList,
-} from "../../controller/wishList/wishListController.js";
+  clearUserFavouriteList,
+  getUserFavouriteList,
+  toggleFavouriteList,
+} from "../../controller/favourite/favouriteController.js";
 import {
   authenticateToken,
   verifyPermission,
@@ -17,12 +17,12 @@ router
   .post(
     authenticateToken,
     verifyPermission([USER_ROLES_ENUM.SELLER]),
-    toggleWishList
+    toggleFavouriteList
   )
   .get(
     authenticateToken,
     verifyPermission([USER_ROLES_ENUM.SELLER]),
-    getUserWishList
+    getUserFavouriteList
   );
 
 // Route to clear the wishlist of logged in user
@@ -31,7 +31,7 @@ router
   .delete(
     authenticateToken,
     verifyPermission([USER_ROLES_ENUM.SELLER]),
-    clearUserWishList
+    clearUserFavouriteList
   );
 
 export default router;
