@@ -29,9 +29,9 @@ export const createProductPost = asyncHandler(async (req, res, next) => {
     !description ||
     !minprice ||
     !maxprice ||
-    !city ||
-    !state ||
-    !zipcode ||
+    // !city ||
+    // !state ||
+    // !zipcode ||
     photos.length === 0
   ) {
     return next(new ApiError("All fields are required", 400));

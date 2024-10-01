@@ -48,15 +48,15 @@ const productSchema = new mongoose.Schema(
     },
     city: {
       type: String,
-      required: [true, "City is required"],
+      // required: [true, "City is required"],
     },
     state: {
       type: String,
-      required: [true, "State is required"],
+      // required: [true, "State is required"],
     },
     zipcode: {
       type: String,
-      required: [true, "Zipcode is required"],
+      // required: [true, "Zipcode is required"],
     },
   },
   {
