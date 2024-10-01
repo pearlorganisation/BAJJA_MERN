@@ -2,16 +2,6 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
-    photos: {
-      type: [],
-      validate: {
-        validator: function (value) {
-          return value.length <= 4; // Maximum 4 photos
-        },
-        message: "You can upload a maximum of 4 photos.",
-      },
-      required: [true, "Photos are required"],
-    },
     userId: {
       type: mongoose.Types.ObjectId,
       ref: "User",
@@ -23,7 +13,7 @@ const productSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["Goods", "Services"], 
+      enum: ["Goods", "Services"],
       required: true,
     },
     category: {
@@ -33,6 +23,16 @@ const productSchema = new mongoose.Schema(
     sub_category: {
       type: String,
       required: true,
+    },
+    photos: {
+      type: [],
+      validate: {
+        validator: function (value) {
+          return value.length <= 4; // Maximum 4 photos
+        },
+        message: "You can upload a maximum of 4 photos.",
+      },
+      required: [true, "Photos are required"],
     },
     description: {
       type: String,
@@ -45,6 +45,18 @@ const productSchema = new mongoose.Schema(
     maxprice: {
       type: Number,
       required: true,
+    },
+    city: {
+      type: String,
+      required: [true, "City is required"],
+    },
+    state: {
+      type: String,
+      required: [true, "State is required"],
+    },
+    zipcode: {
+      type: String,
+      required: [true, "Zipcode is required"],
     },
   },
   {

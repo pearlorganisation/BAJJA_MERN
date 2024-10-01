@@ -18,12 +18,22 @@ const router = express.Router();
 
 router
   .route("/")
-  .post(authenticateToken, upload.array("photos"), createProductPost);
+  .post(
+    authenticateToken,
+    verifyPermission([USER_ROLES_ENUM.BUYER]),
+    upload.array("photos"),
+    createProductPost
+  );
 
 router
   .route("/:productPostId")
   .get(authenticateToken, getProductPostById)
-  .patch(authenticateToken, upload.array("photos"), updateProductPost)
+  .patch(
+    authenticateToken,
+    verifyPermission([USER_ROLES_ENUM.BUYER]),
+    upload.array("photos"),
+    updateProductPost
+  )
   .delete(
     authenticateToken,
     verifyPermission([USER_ROLES_ENUM.BUYER]),
@@ -38,6 +48,5 @@ router
     createComment
   )
   .get(authenticateToken, getComments);
-
 
 export default router;

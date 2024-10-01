@@ -14,9 +14,13 @@ export const createProductPost = asyncHandler(async (req, res, next) => {
     description,
     minprice,
     maxprice,
+    city,
+    state,
+    zipcode,
   } = req.body;
   const photos = req.files;
 
+  // Validate that all required fields are provided
   if (
     !product_name ||
     !type ||
@@ -25,13 +29,18 @@ export const createProductPost = asyncHandler(async (req, res, next) => {
     !description ||
     !minprice ||
     !maxprice ||
+    !city ||
+    !state ||
+    !zipcode ||
     photos.length === 0
   ) {
     return next(new ApiError("All fields are required", 400));
   }
+
   const minPriceNum = Number(minprice);
   const maxPriceNum = Number(maxprice);
 
+  // Validate price values
   if (minPriceNum < 0 || maxPriceNum < 0) {
     return next(new ApiError("Price must be a positive value.", 400));
   }
@@ -41,10 +50,15 @@ export const createProductPost = asyncHandler(async (req, res, next) => {
     );
   }
 
+  // Validate photo uploads
   if (!photos || photos.length > 4) {
     return next(new ApiError("You must upload between 1 and 4 photos.", 400));
   }
+
+  // Upload photos to Cloudinary
   const response = await uploadFileToCloudinary(photos);
+
+  // Create a new product with the new fields included
   const product = new Product({
     product_name,
     type,
@@ -55,8 +69,15 @@ export const createProductPost = asyncHandler(async (req, res, next) => {
     maxprice: maxPriceNum,
     photos: response.result,
     userId: req.user?._id,
+    city,
+    state,
+    zipcode,
   });
+
+  // Save the product to the database
   await product.save();
+
+  // Respond with success message and product data
   return res.status(201).json({
     message: "Product created successfully.",
     product,
