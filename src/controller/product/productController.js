@@ -1,4 +1,7 @@
-import { uploadFileToCloudinary } from "../../configs/cloudinary.js";
+import {
+  deleteFileFromCloudinary,
+  uploadFileToCloudinary,
+} from "../../configs/cloudinary.js";
 import Comment from "../../models/comment/comment.js";
 import Product from "../../models/product/product.js";
 import ApiError from "../../utils/ApiError.js";
@@ -173,6 +176,13 @@ export const deleteProductPostById = asyncHandler(async (req, res, next) => {
       new ApiError("Not authorized to delete this product post", 401)
     );
   }
+
+  console.log("photos: ", productPost.photos);
+  // Delete uploaded photos from Cloudinary
+  if (productPost.photos && productPost.photos.length > 0) {
+    await deleteFileFromCloudinary(productPost.photos);
+  }
+
   await Product.deleteOne({ _id: productPostId });
   return res
     .status(200)
