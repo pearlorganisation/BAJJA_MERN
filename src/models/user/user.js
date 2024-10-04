@@ -12,9 +12,21 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     profilePic: {
-      type: String,
-      default: null,
+      // Below field are not required
+      asset_id: {
+        type: String,
+        default: null,
+      },
+      secure_url: {
+        type: String,
+        default: null,
+      },
+      public_id: {
+        type: String,
+        default: null,
+      },
     },
+
     username: {
       type: String,
       required: [true, "Username is required"],
@@ -50,7 +62,7 @@ const userSchema = new mongoose.Schema(
     },
     fcmToken: {
       type: String,
-      default: null, 
+      default: null,
     },
   },
   { timeStamps: true }

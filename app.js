@@ -43,7 +43,7 @@ app.use("/api/v1/favourites", favouriteRouter);
 
 app.use(errorHandler);
 app.use("*", (req, res) => {
-  res.status(404).json({ status: false, message: "Route not found" });
+  res.status(404).json({ success: false, message: "Route not found" });
 });
 
 export { app };

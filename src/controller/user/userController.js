@@ -1,4 +1,7 @@
-import { uploadFileToCloudinary } from "../../configs/cloudinary.js";
+import {
+  deleteFileFromCloudinary,
+  uploadFileToCloudinary,
+} from "../../configs/cloudinary.js";
 import Comment from "../../models/comment/comment.js";
 import OTP from "../../models/otp/otp.js";
 // import user from "../../models/user/user.js";
@@ -42,11 +45,20 @@ export const updateUserProfile = asyncHandler(async (req, res, next) => {
     }
   });
 
+  // Find the user to update
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    return next(new ApiError("User not found", 404));
+  }
+
   // Handle profile picture upload
   if (profilePic) {
     const response = await uploadFileToCloudinary(profilePic);
-    if (response.status && response.result.length > 0) {
-      filterReqObj.profilePic = response.result[0].secure_url;
+    if (response.success && response.result.length > 0) {
+      filterReqObj.profilePic = response.result[0];
+      if (user.profilePic && user.profilePic.public_id) {
+        await deleteFileFromCloudinary(user.profilePic);
+      }
     }
   }
 

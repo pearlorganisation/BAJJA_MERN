@@ -10,6 +10,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Upload file to cloudinary
 export const uploadFileToCloudinary = async (files) => {
   if (!Array.isArray(files)) {
     files = [files];
@@ -41,11 +42,11 @@ export const uploadFileToCloudinary = async (files) => {
       asset_id: file.asset_id,
       secure_url: file.secure_url,
       public_id: file.public_id,
-      created_at: file.created_at,
+      // created_at: file.created_at,
     }));
-    return { status: true, result: result.filter(Boolean) };
+    return { success: true, result: result.filter(Boolean) };
   } catch (error) {
-    return { status: false, message: error?.message };
+    return { success: false, message: error?.message };
   }
 };
 
@@ -74,11 +75,11 @@ export const deleteFileFromCloudinary = async (files) => {
         }
       })
     );
-    console.log("Deleted res: ", deleteResults);
+    console.log("Deleted Result: ", deleteResults);
     // Check if there were any errors
-    const failedDeletes = deleteResults.filter((res) => res.error);
-    console.log("Deleted res: ", failedDeletes);
+    const failedDeletes = deleteResults.filter((res) => res.error); // response when deletion failed = {"result": "", "error": {}}
     if (failedDeletes.length > 0) {
+      console.log("Failded deletes Response: ", failedDeletes);
       return {
         success: false,
         message: "Some files failed to delete",
