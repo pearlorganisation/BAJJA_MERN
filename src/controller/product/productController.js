@@ -228,3 +228,26 @@ export const getComments = asyncHandler(async (req, res, next) => {
     data: comments,
   });
 });
+
+export const searchProductPost = asyncHandler(async (req, res, next) => {
+  const { productName } = req.query;
+
+  // Check if productName is provided
+  if (!productName) {
+    return next(new ApiError("Product name is required for search", 400));
+  }
+
+  // Perform a case-insensitive search on product_name
+  const products = await Product.find({
+    product_name: { $regex: productName, $options: "i" },
+  }); //.select("product_name category sub_category");
+
+  // If no products are found
+  if (products.length === 0) {
+    return next(
+      new ApiError("No products found matching the provided name", 404)
+    );
+  }
+
+  return res.status(200).json(new ApiResponse("Products found", products, 200));
+});

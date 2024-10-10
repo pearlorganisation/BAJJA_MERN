@@ -48,7 +48,7 @@ const productSchema = new mongoose.Schema(
     },
     city: {
       type: String,
-      required: [true, "City is required"], 
+      required: [true, "City is required"],
     },
     state: {
       type: String,
@@ -63,6 +63,8 @@ const productSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+productSchema.index({ product_name: "text", category: 1, sub_category: 1 });
 
 const Product = mongoose.model("Product", productSchema);
 
