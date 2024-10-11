@@ -30,6 +30,7 @@ import categoryRouter from "./src/routes/category/categoryRoutes.js";
 import chatRoomRouter from "./src/routes/chatRoom/chatRoom.js";
 import commentRouter from "./src/routes/comment/commentRoutes.js";
 import favouriteRouter from "./src/routes/favourite/favouriteRoutes.js";
+import sendNotificationRouter from "./src/routes/notification/notificationRoutes.js";
 
 // Routes Declaration
 app.use("/api/v1/auth", authRouter);
@@ -41,6 +42,7 @@ app.use("/api/v1/home", homeRouter);
 app.use("/api/v1/chat-room", chatRoomRouter);
 app.use("/api/v1/comments", commentRouter);
 app.use("/api/v1/favourites", favouriteRouter);
+app.use("/api/v1/notification", sendNotificationRouter);
 
 app.use(errorHandler);
 app.use("*", (req, res) => {
