@@ -22,7 +22,7 @@ import admin from "firebase-admin";
 // };
 
 export const sendNotification = async (req, res) => {
-  const { token, message } = req.body;
+  const { token, message, title } = req.body;
 
   if (!token || !message) {
     return res.status(400).json({ error: "Token and message are required" });
@@ -31,11 +31,11 @@ export const sendNotification = async (req, res) => {
   // sendNotification(token, message);
   // Notification sending function
   try {
-    (function sendNotification() { 
+    (function sendNotification() {
       const payload = {
         token,
-        notification: { 
-          title: "New Message",
+        notification: {
+          title,
           body: message,
         },
       };
