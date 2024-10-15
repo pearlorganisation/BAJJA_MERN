@@ -1,21 +1,33 @@
 import { sendNotificationToSelectedDevice } from "../../services/notificationService.js";
+import ApiError from "../../utils/ApiError.js";
+import { ApiResponse } from "../../utils/ApiResponse.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 
-export const sendNotification = async (req, res) => {
+export const sendNotification = asyncHandler(async (req, res, next) => {
   const { deviceToken, title, body, customData } = req.body;
 
   if (!deviceToken || !title || !body) {
-    return res.status(400).json({ error: "Missing required fields" });
+    return next(new ApiError("All fields are required", 400));
   }
 
   try {
-    await sendNotificationToSelectedDevice(
+    const response = await sendNotificationToSelectedDevice(
       deviceToken,
       title,
       body,
       customData
     );
-    res.status(200).json({ message: "Notification sent successfully!" });
+
+    if (response.status === 200) {
+      return res
+        .status(200)
+        .json(
+          new ApiResponse("Notification sent successfully", response.data, 200)
+        );
+    } else {
+      return next(new ApiError("Failed to send notification", response.status));
+    }
   } catch (error) {
-    res.status(500).json({ error: "Failed to send notification" });
+    next(new ApiError(`Error sending notification: ${error.message}`, 500));
   }
-};        
+});

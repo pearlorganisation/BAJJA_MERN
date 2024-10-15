@@ -4,6 +4,6 @@ import { sendNotification } from "../../controller/notification/notificationCont
 const router = express.Router();
 
 // POST /api/send-notification
-router.route("/send-notification").post(sendNotification);
+router.route("/send").post(sendNotification);
 
 export default router;

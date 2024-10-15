@@ -37,7 +37,7 @@ export async function getAccessToken() {
   const accessToken = authClient.credentials.access_token;
 
   // Log the access token for debugging
-//   console.log("Access Token:", accessToken);
+  console.log("Access Token:", accessToken);
 
   return accessToken;
 }
