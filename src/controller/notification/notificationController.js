@@ -4,17 +4,17 @@ import { ApiResponse } from "../../utils/ApiResponse.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 
 export const sendNotification = asyncHandler(async (req, res, next) => {
-  const { deviceToken, title, body, customData } = req.body;
+  const { deviceFCMToken, notiTitle, notiBody, customData } = req.body;
 
-  if (!deviceToken || !title || !body) {
+  if (!deviceFCMToken || !notiTitle || !notiBody) {
     return next(new ApiError("All fields are required", 400));
   }
 
   try {
     const response = await sendNotificationToSelectedDevice(
-      deviceToken,
-      title,
-      body,
+      deviceFCMToken,
+      notiTitle,
+      notiBody,
       customData
     );
 
