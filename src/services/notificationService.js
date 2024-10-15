@@ -13,7 +13,7 @@ export async function sendNotificationToSelectedDevice(
     const accessToken = await getAccessToken();
 
     const apiUrl =
-      "https://fcm.googleapis.com/v1/projects/gogoa-4d569/messages:send";
+      "https://fcm.googleapis.com/v1/projects/gogoa-4d569/messages:send"; 
 
     // Constructing the notification body
     const messageBody = {
