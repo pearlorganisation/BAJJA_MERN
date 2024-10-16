@@ -89,8 +89,10 @@ export const createProductPost = asyncHandler(async (req, res, next) => {
 
 export const getProductPostById = asyncHandler(async (req, res, next) => {
   const { productPostId } = req.params;
-  const productPost = await Product.findById(productPostId);
-  console.log(productPost);
+  const productPost = await Product.findById(productPostId).populate(
+    "userId",
+    "fcmToken username userRole"
+  );
   if (!productPost) {
     return next(new ApiError("Product post not found", 404));
   }
