@@ -9,6 +9,7 @@ import {
   getUserProfile,
   resetPassword,
   updateUserProfile,
+  updateUserRole,
 } from "../../controller/user/userController.js";
 
 const router = express.Router();
@@ -23,5 +24,5 @@ router.route("/forgot-password").post(forgotPassword);
 router.route("/reset-password").post(resetPassword);
 router.route("/my-comments").get(authenticateToken, getSellerComments); //Only for seller
 router.route("/:userId").delete(authenticateToken, deleteUser);
-
+router.route("/change-role").post(authenticateToken, updateUserRole);
 export default router;

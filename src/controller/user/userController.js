@@ -1,3 +1,4 @@
+import { USER_ROLES_ENUM } from "../../../constants.js";
 import {
   deleteFileFromCloudinary,
   uploadFileToCloudinary,
@@ -207,4 +208,37 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
     return next(new ApiError("User is not deleted", 404));
   }
   return res.status(200).json(new ApiResponse("User is deleted", null, 200));
+});
+
+// Update user role
+export const updateUserRole = asyncHandler(async (req, res, next) => {
+  const { newRole } = req.body;
+
+  // Validate the new role
+  if (!Object.values(USER_ROLES_ENUM).includes(newRole)) {
+    return next(
+      new ApiError("Invalid role. Allowed roles are buyer and seller.", 400)
+    );
+  }
+
+  // Find user by ID
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    return next(new ApiError("User not found", 404));
+  }
+
+  // Check if the user is already in the requested role
+  if (user.userRole === newRole) {
+    return res
+      .status(200)
+      .json(new ApiResponse("User is already in the specified role"));
+  }
+
+  // Update the user's role and save
+  user.userRole = newRole;
+  await user.save();
+
+  return res
+    .status(200)
+    .json(new ApiResponse("User role updated successfully"));
 });

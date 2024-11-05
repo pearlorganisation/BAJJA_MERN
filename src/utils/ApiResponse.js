@@ -1,8 +1,8 @@
 class ApiResponse {
   constructor(message = "Success", data = null, statusCode) {
-    this.success = statusCode < 400;
+    this.success = true;
     this.message = message;
-    this.statusCode = statusCode;
+    // this.statusCode = statusCode;
     this.data = data;
   }
 
@@ -11,7 +11,7 @@ class ApiResponse {
     return {
       success: this.success,
       message: this.message,
-      data: this.data,
+      ...(this.data && { data: this.data }), // Only include data if it's present
     };
   }
 }

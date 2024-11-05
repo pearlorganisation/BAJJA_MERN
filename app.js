@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./src/configs/swaggerConfig.js";
 import { errorHandler } from "./src/middleware/errorHandler.js";
@@ -19,6 +20,7 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static("uploads"));
+app.use(morgan("dev"));
 
 //Routes Imports
 import authRouter from "./src/routes/auth/authRoutes.js";
