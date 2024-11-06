@@ -35,9 +35,11 @@ export const signup = asyncHandler(async (req, res, next) => {
     ...req?.body,
   });
 
-  res
-    .status(201)
-    .json({ success: true, message: "User register successfully" });
+  res.status(201).json({
+    success: true,
+    message: "User register successfully",
+    data: { userId: newUser._id },
+  });
 });
 
 export const login = asyncHandler(async (req, res, next) => {
@@ -89,4 +91,3 @@ export const logout = asyncHandler(async (req, res, next) => {
     return next(new ApiError("Error in logout", 500));
   }
 });
- 
