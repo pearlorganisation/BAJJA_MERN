@@ -210,35 +210,22 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
   return res.status(200).json(new ApiResponse("User is deleted", null, 200));
 });
 
-// Update user role
-export const updateUserRole = asyncHandler(async (req, res, next) => {
-  const { newRole } = req.body;
-
-  // Validate the new role
-  if (!Object.values(USER_ROLES_ENUM).includes(newRole)) {
-    return next(
-      new ApiError("Invalid role. Allowed roles are buyer and seller.", 400)
-    );
-  }
-
+// Toggle user role
+export const toggleUserRole = asyncHandler(async (req, res, next) => {
   // Find user by ID
   const user = await User.findById(req.user._id);
   if (!user) {
     return next(new ApiError("User not found", 404));
   }
 
-  // Check if the user is already in the requested role
-  if (user.userRole === newRole) {
-    return res
-      .status(200)
-      .json(new ApiResponse("User is already in the specified role"));
-  }
+  // Toggle the user's role
+  user.userRole = user.userRole === "buyer" ? "seller" : "buyer";
+  const updatedUser = await user.save();
 
-  // Update the user's role and save
-  user.userRole = newRole;
-  await user.save();
-
-  return res
-    .status(200)
-    .json(new ApiResponse("User role updated successfully"));
+  // Return response with the new role
+  return res.status(200).json(
+    new ApiResponse("User role toggled successfully", {
+      userRole: updatedUser.userRole,
+    })
+  );
 });
