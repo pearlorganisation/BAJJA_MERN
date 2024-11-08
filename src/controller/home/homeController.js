@@ -7,7 +7,7 @@ import { asyncHandler } from "../../utils/asyncHandler.js";
 export const getAllProductPosts = asyncHandler(async (req, res, next) => {
   const userRole = req.user.role;
   const userId = req.user._id; // User ID for fetching favourites
-
+  console.log(userRole);
   let filter = {};
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
@@ -15,11 +15,13 @@ export const getAllProductPosts = asyncHandler(async (req, res, next) => {
   if (userRole === "buyer") {
     filter = { userId }; // Buyer can see only their posts
   } else if (userRole === "seller") {
+    console.log("seller hu mai");
     filter = {
       $or: [
         { createdAt: { $gte: twentyFourHoursAgo } },
         { updatedAt: { $gte: twentyFourHoursAgo } },
       ],
+      userId: { $ne: userId }, // Exclude posts from the logged-in seller
     }; // Seller sees posts from the last 24 hours
   } else {
     return next(new ApiError("Access denied", 403));
