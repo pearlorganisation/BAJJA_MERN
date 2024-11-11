@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
+    "conv": "node convert-taxonomy.js",
     "debug": "ndb server.js"
   },
   "author": "",

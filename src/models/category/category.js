@@ -30,16 +30,16 @@ const categorySchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-    },
-    slug: {
-      type: String,
-      required: true,
       unique: true,
     },
-    parent: {
+    parent_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
       default: null, // Top-level categories have no parent
+    },
+    path: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }
