@@ -25,7 +25,7 @@ import mongoose from "mongoose";
 //   },
 //   { timestamps: true }
 // );
-const categorySchema = new mongoose.Schema(
+const category2Schema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -44,6 +44,6 @@ const categorySchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-const Category = mongoose.model("Category", categorySchema);
+const Category2 = mongoose.model("Category2", category2Schema);
 
-export default Category;
+export default Category2;

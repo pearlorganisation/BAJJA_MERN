@@ -2,6 +2,7 @@ import Category from "../../models/category/category.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import ApiError from "../../utils/ApiError.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
+import Category2 from "../../models/category/category.js";
 
 // export const createCategory = asyncHandler(async (req, res, next) => {
 //   const category = await Category.create(req.body);
@@ -92,7 +93,7 @@ import { ApiResponse } from "../../utils/ApiResponse.js";
 
 // Recursive function to build category tree
 const buildCategoryTree = async (parentId = null) => {
-  const categories = await Category.find({ parent: parentId }).lean();
+  const categories = await Category2.find({ parent: parentId }).lean();
 
   for (let category of categories) {
     category.subcategories = await buildCategoryTree(category._id);
@@ -105,7 +106,7 @@ export const createCategory = async (req, res) => {
   const { name, slug, parent } = req.body;
 
   try {
-    const category = new Category({ name, slug, parent });
+    const category = new Category2({ name, slug, parent });
     await category.save();
     res.status(201).json(category);
   } catch (error) {
