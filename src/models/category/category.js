@@ -27,14 +27,17 @@ import mongoose from "mongoose";
 // );
 const category2Schema = new mongoose.Schema(
   {
+    gptId: {
+      type: Number,
+      unique: true,
+    },
     name: {
       type: String,
       required: true,
       unique: true,
     },
     parent_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
+      type: Number,
       default: null, // Top-level categories have no parent
     },
     path: {

@@ -12,7 +12,7 @@ const processLine = (line) => {
   // Each line is structured as 'id - Category Name'
   const match = line.match(/^(\d+)\s*-\s*(.+)/);
   if (match) {
-    const id = parseInt(match[1], 10);
+    const gptId = parseInt(match[1], 10);
     const path = match[2].trim();
 
     // Determine parent name by removing the last part after ">"
@@ -24,11 +24,11 @@ const processLine = (line) => {
       parentName && pathToIdMap[parentName] ? pathToIdMap[parentName] : null;
 
     // Create the category object
-    const category = { id, name, parent_id, path };
+    const category = { gptId, name, parent_id, path };
     categories.push(category);
 
     // Add to name-to-id map for future parent lookups
-    pathToIdMap[path] = id;
+    pathToIdMap[path] = gptId;
   }
 };
 

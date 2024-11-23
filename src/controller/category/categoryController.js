@@ -3,6 +3,8 @@ import { asyncHandler } from "../../utils/asyncHandler.js";
 import ApiError from "../../utils/ApiError.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import Category2 from "../../models/category/category.js";
+import fs from "fs";
+import path from "path";
 
 // export const createCategory = asyncHandler(async (req, res, next) => {
 //   const category = await Category.create(req.body);
@@ -92,33 +94,62 @@ import Category2 from "../../models/category/category.js";
 // });
 
 // Recursive function to build category tree
-const buildCategoryTree = async (parentId = null) => {
-  const categories = await Category2.find({ parent: parentId }).lean();
-
-  for (let category of categories) {
-    category.subcategories = await buildCategoryTree(category._id);
+const buildCategoryTree = (
+  categories,
+  parentId = null,
+  depth = 0,
+  maxDepth = 50
+) => {
+  if (depth > maxDepth) {
+    console.warn(`Max depth reached at parentId: ${parentId}`);
+    return [];
   }
 
-  return categories;
-};
-
-export const createCategory = async (req, res) => {
-  const { name, slug, parent } = req.body;
-
-  try {
-    const category = new Category2({ name, slug, parent });
-    await category.save();
-    res.status(201).json(category);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+  return categories
+    .filter((category) => category.parent_id === parentId)
+    .map((category) => ({
+      id: category.id,
+      name: category.name,
+      path: category.path,
+      children: buildCategoryTree(categories, category.id, depth + 1, maxDepth), // Recursive call
+    }));
 };
 
 export const getCategoryTree = async (req, res) => {
   try {
-    const categoryTree = await buildCategoryTree();
-    res.json(categoryTree);
+    // Fetch all categories from the database
+    const categories = await Category.find().lean(); // .lean() for better performance
+
+    // Transform the flat list into a nested tree
+    // const categoryTree = buildCategoryTree(categories);
+
+    // Send the response
+    res.status(200).json({
+      success: true,
+      message: "Categories fetched successfully",
+      data: categories,
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error fetching categories:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching categories",
+      error: error.message,
+    });
+  }
+};
+
+export const insertCategory = async (req, res) => {
+  try {
+    // Read the JSON file
+    const data = fs.readFileSync("categories.json", "utf8");
+    const categories = JSON.parse(data); // Parse the JSON data
+
+    // Insert the data
+    await Category2.insertMany(categories);
+    res.status(200).json({ success: true });
+    console.log("Categories inserted successfully!");
+  } catch (error) {
+    console.error("Error inserting categories:", error);
   }
 };

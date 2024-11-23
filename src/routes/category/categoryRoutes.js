@@ -1,12 +1,16 @@
 import express from "express";
+// import {
+//   createCategory,
+//   deleteCategoryById,
+//   getAllCategories,
+//   getCategoryTree,
+//   updateCategoryById,
+// } from "../../controller/category/categoryController.js";
+// import { authenticateToken } from "../../middleware/authMiddleware.js";
 import {
-  createCategory,
-  deleteCategoryById,
-  getAllCategories,
   getCategoryTree,
-  updateCategoryById,
+  insertCategory,
 } from "../../controller/category/categoryController.js";
-import { authenticateToken } from "../../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -17,6 +21,6 @@ const router = express.Router();
 //   .patch(authenticateToken, updateCategoryById) //gpt new
 //   .delete(authenticateToken, deleteCategoryById);
 
-router.route("/").getCategoryTree();
+router.route("/").post(insertCategory).get(getCategoryTree);
 
 export default router;
