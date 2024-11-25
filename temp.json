@@ -1,0 +1,464 @@
+[
+  {
+    "gptId": 1,
+    "name": "Animals & Pet Supplies",
+    "parent_id": null,
+    "path": "Animals & Pet Supplies",
+    "type": "Goods"
+  },
+  {
+    "gptId": 3237,
+    "name": "Live Animals",
+    "parent_id": 1,
+    "path": "Animals & Pet Supplies > Live Animals",
+    "type": "Goods"
+  },
+  {
+    "gptId": 2,
+    "name": "Pet Supplies",
+    "parent_id": 1,
+    "path": "Animals & Pet Supplies > Pet Supplies",
+    "type": "Goods"
+  },
+  {
+    "gptId": 3,
+    "name": "Bird Supplies",
+    "parent_id": 2,
+    "path": "Animals & Pet Supplies > Pet Supplies > Bird Supplies",
+    "type": "Goods"
+  },
+  {
+    "gptId": 7385,
+    "name": "Bird Cage Accessories",
+    "parent_id": 3,
+    "path": "Animals & Pet Supplies > Pet Supplies > Bird Supplies > Bird Cage Accessories",
+    "type": "Goods"
+  },
+  {
+    "gptId": 499954,
+    "name": "Bird Cage Bird Baths",
+    "parent_id": 7385,
+    "path": "Animals & Pet Supplies > Pet Supplies > Bird Supplies > Bird Cage Accessories > Bird Cage Bird Baths",
+    "type": "Goods"
+  },
+  {
+    "gptId": 7386,
+    "name": "Bird Cage Food & Water Dishes",
+    "parent_id": 7385,
+    "path": "Animals & Pet Supplies > Pet Supplies > Bird Supplies > Bird Cage Accessories > Bird Cage Food & Water Dishes",
+    "type": "Goods"
+  },
+  {
+    "gptId": 4989,
+    "name": "Bird Cages & Stands",
+    "parent_id": 3,
+    "path": "Animals & Pet Supplies > Pet Supplies > Bird Supplies > Bird Cages & Stands",
+    "type": "Goods"
+  },
+  {
+    "gptId": 4990,
+    "name": "Bird Food",
+    "parent_id": 3,
+    "path": "Animals & Pet Supplies > Pet Supplies > Bird Supplies > Bird Food",
+    "type": "Goods"
+  },
+  {
+    "gptId": 7398,
+    "name": "Bird Gyms & Playstands",
+    "parent_id": 3,
+    "path": "Animals & Pet Supplies > Pet Supplies > Bird Supplies > Bird Gyms & Playstands",
+    "type": "Goods"
+  },
+  {
+    "gptId": 4991,
+    "name": "Bird Ladders & Perches",
+    "parent_id": 3,
+    "path": "Animals & Pet Supplies > Pet Supplies > Bird Supplies > Bird Ladders & Perches",
+    "type": "Goods"
+  },
+  {
+    "gptId": 4992,
+    "name": "Bird Toys",
+    "parent_id": 3,
+    "path": "Animals & Pet Supplies > Pet Supplies > Bird Supplies > Bird Toys",
+    "type": "Goods"
+  },
+  {
+    "gptId": 4993,
+    "name": "Bird Treats",
+    "parent_id": 3,
+    "path": "Animals & Pet Supplies > Pet Supplies > Bird Supplies > Bird Treats",
+    "type": "Goods"
+  },
+  {
+    "gptId": 4,
+    "name": "Cat Supplies",
+    "parent_id": 2,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies",
+    "type": "Goods"
+  },
+  {
+    "gptId": 5082,
+    "name": "Cat Apparel",
+    "parent_id": 4,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Apparel",
+    "type": "Goods"
+  },
+  {
+    "gptId": 4433,
+    "name": "Cat Beds",
+    "parent_id": 4,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Beds",
+    "type": "Goods"
+  },
+  {
+    "gptId": 3367,
+    "name": "Cat Food",
+    "parent_id": 4,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Food",
+    "type": "Goods"
+  },
+  {
+    "gptId": 543684,
+    "name": "Non-prescription Cat Food",
+    "parent_id": 3367,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Food > Non-prescription Cat Food",
+    "type": "Goods"
+  },
+  {
+    "gptId": 543683,
+    "name": "Prescription Cat Food",
+    "parent_id": 3367,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Food > Prescription Cat Food",
+    "type": "Goods"
+  },
+  {
+    "gptId": 4997,
+    "name": "Cat Furniture",
+    "parent_id": 4,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Furniture",
+    "type": "Goods"
+  },
+  {
+    "gptId": 500059,
+    "name": "Cat Furniture Accessories",
+    "parent_id": 4,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Furniture Accessories",
+    "type": "Goods"
+  },
+  {
+    "gptId": 4999,
+    "name": "Cat Litter",
+    "parent_id": 4,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Litter",
+    "type": "Goods"
+  },
+  {
+    "gptId": 8069,
+    "name": "Cat Litter Box Liners",
+    "parent_id": 4,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Litter Box Liners",
+    "type": "Goods"
+  },
+  {
+    "gptId": 7142,
+    "name": "Cat Litter Box Mats",
+    "parent_id": 4,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Litter Box Mats",
+    "type": "Goods"
+  },
+  {
+    "gptId": 5000,
+    "name": "Cat Litter Boxes",
+    "parent_id": 4,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Litter Boxes",
+    "type": "Goods"
+  },
+  {
+    "gptId": 5001,
+    "name": "Cat Toys",
+    "parent_id": 4,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Toys",
+    "type": "Goods"
+  },
+  {
+    "gptId": 5002,
+    "name": "Cat Treats",
+    "parent_id": 4,
+    "path": "Animals & Pet Supplies > Pet Supplies > Cat Supplies > Cat Treats",
+    "type": "Goods"
+  },
+  {
+    "gptId": 5,
+    "name": "Dog Supplies",
+    "parent_id": 2,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies",
+    "type": "Goods"
+  },
+  {
+    "gptId": 5004,
+    "name": "Dog Apparel",
+    "parent_id": 5,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Apparel",
+    "type": "Goods"
+  },
+  {
+    "gptId": 4434,
+    "name": "Dog Beds",
+    "parent_id": 5,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Beds",
+    "type": "Goods"
+  },
+  {
+    "gptId": 7372,
+    "name": "Dog Diaper Pads & Liners",
+    "parent_id": 5,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Diaper Pads & Liners",
+    "type": "Goods"
+  },
+  {
+    "gptId": 499900,
+    "name": "Dog Diapers",
+    "parent_id": 5,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Diapers",
+    "type": "Goods"
+  },
+  {
+    "gptId": 3530,
+    "name": "Dog Food",
+    "parent_id": 5,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Food",
+    "type": "Goods"
+  },
+  {
+    "gptId": 543682,
+    "name": "Non-prescription Dog Food",
+    "parent_id": 3530,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Food > Non-prescription Dog Food",
+    "type": "Food"
+  },
+  {
+    "gptId": 543681,
+    "name": "Prescription Dog Food",
+    "parent_id": 3530,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Food > Prescription Dog Food",
+    "type": "Food"
+  },
+  {
+    "gptId": 5094,
+    "name": "Dog Houses",
+    "parent_id": 5,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Houses",
+    "type": "Furniture"
+  },
+  {
+    "gptId": 7428,
+    "name": "Dog Kennel & Run Accessories",
+    "parent_id": 5,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Kennel & Run Accessories",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 7274,
+    "name": "Dog Kennels & Runs",
+    "parent_id": 5,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Kennels & Runs",
+    "type": "Furniture"
+  },
+  {
+    "gptId": 5010,
+    "name": "Dog Toys",
+    "parent_id": 5,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Toys",
+    "type": "Toys"
+  },
+  {
+    "gptId": 8123,
+    "name": "Dog Treadmills",
+    "parent_id": 5,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Treadmills",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 5011,
+    "name": "Dog Treats",
+    "parent_id": 5,
+    "path": "Animals & Pet Supplies > Pet Supplies > Dog Supplies > Dog Treats",
+    "type": "Food"
+  },
+  {
+    "gptId": 6,
+    "name": "Fish Supplies",
+    "parent_id": 2,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies",
+    "type": "Supplies"
+  },
+  {
+    "gptId": 505303,
+    "name": "Aquarium & Pond Tubing",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquarium & Pond Tubing",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 505307,
+    "name": "Aquarium Air Stones & Diffusers",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquarium Air Stones & Diffusers",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 500038,
+    "name": "Aquarium Cleaning Supplies",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquarium Cleaning Supplies",
+    "type": "Supplies"
+  },
+  {
+    "gptId": 5019,
+    "name": "Aquarium Decor",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquarium Decor",
+    "type": "Decor"
+  },
+  {
+    "gptId": 5020,
+    "name": "Aquarium Filters",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquarium Filters",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 505306,
+    "name": "Aquarium Fish Nets",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquarium Fish Nets",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 5021,
+    "name": "Aquarium Gravel & Substrates",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquarium Gravel & Substrates",
+    "type": "Supplies"
+  },
+  {
+    "gptId": 5079,
+    "name": "Aquarium Lighting",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquarium Lighting",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 6951,
+    "name": "Aquarium Overflow Boxes",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquarium Overflow Boxes",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 5023,
+    "name": "Aquarium Stands",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquarium Stands",
+    "type": "Furniture"
+  },
+  {
+    "gptId": 500062,
+    "name": "Aquarium Temperature Controllers",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquarium Temperature Controllers",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 5161,
+    "name": "Aquarium Water Treatments",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquarium Water Treatments",
+    "type": "Supplies"
+  },
+  {
+    "gptId": 3238,
+    "name": "Aquariums",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquariums",
+    "type": "Furniture"
+  },
+  {
+    "gptId": 6085,
+    "name": "Aquatic Plant Fertilizers",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Aquatic Plant Fertilizers",
+    "type": "Supplies"
+  },
+  {
+    "gptId": 6403,
+    "name": "Fish Feeders",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Fish Feeders",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 5024,
+    "name": "Fish Food",
+    "parent_id": 6,
+    "path": "Animals & Pet Supplies > Pet Supplies > Fish Supplies > Fish Food",
+    "type": "Food"
+  },
+  {
+    "gptId": 6983,
+    "name": "Pet Agility Equipment",
+    "parent_id": 2,
+    "path": "Animals & Pet Supplies > Pet Supplies > Pet Agility Equipment",
+    "type": "Toys"
+  },
+  {
+    "gptId": 6811,
+    "name": "Pet Apparel Hangers",
+    "parent_id": 2,
+    "path": "Animals & Pet Supplies > Pet Supplies > Pet Apparel Hangers",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 500084,
+    "name": "Pet Bed Accessories",
+    "parent_id": 2,
+    "path": "Animals & Pet Supplies > Pet Supplies > Pet Bed Accessories",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 5092,
+    "name": "Pet Bells & Charms",
+    "parent_id": 2,
+    "path": "Animals & Pet Supplies > Pet Supplies > Pet Bells & Charms",
+    "type": "Accessories"
+  },
+  {
+    "gptId": 6978,
+    "name": "Pet Biometric Monitors",
+    "parent_id": 2,
+    "path": "Animals & Pet Supplies > Pet Supplies > Pet Biometric Monitors",
+    "type": "Health"
+  },
+  {
+    "gptId": 6980,
+    "name": "Pet Glucose Meters",
+    "parent_id": 6978,
+    "path": "Animals & Pet Supplies > Pet Supplies > Pet Biometric Monitors > Pet Glucose Meters",
+    "type": "Health"
+  },
+  {
+    "gptId": 6982,
+    "name": "Pet Pedometers",
+    "parent_id": 6978,
+    "path": "Animals & Pet Supplies > Pet Supplies > Pet Biometric Monitors > Pet Pedometers",
+    "type": "Health"
+  },
+  {
+    "gptId": 6981,
+    "name": "Pet Thermometers",
+    "parent_id": 6978,
+    "path": "Animals & Pet Supplies > Pet Supplies > Pet Biometric Monitors > Pet Thermometers",
+    "type": "Health"
+  }
+]

@@ -5,6 +5,7 @@ import { ApiResponse } from "../../utils/ApiResponse.js";
 import Category2 from "../../models/category/category.js";
 import fs from "fs";
 import path from "path";
+import chalk from "chalk";
 
 // export const createCategory = asyncHandler(async (req, res, next) => {
 //   const category = await Category.create(req.body);
@@ -107,12 +108,34 @@ const buildCategoryTree = (
 
   return categories
     .filter((category) => category.parent_id === parentId)
-    .map((category) => ({
-      id: category.id,
-      name: category.name,
-      path: category.path,
-      children: buildCategoryTree(categories, category.id, depth + 1, maxDepth), // Recursive call
-    }));
+    .map((category) => {
+      // console.log(
+      //   chalk.yellow(
+      //     JSON.stringify({
+      //       id: category.gptId,
+      //       name: category.name,
+      //       path: category.path,
+      //       children: buildCategoryTree(
+      //         categories,
+      //         category.gptId,
+      //         depth + 1,
+      //         maxDepth
+      //       ), // Recursive call
+      //     })
+      //   )
+      // );
+      return {
+        id: category.gptId,
+        name: category.name,
+        path: category.path,
+        children: buildCategoryTree(
+          categories,
+          category.gptId,
+          depth + 1,
+          maxDepth
+        ), // Recursive call
+      };
+    });
 };
 
 export const getCategoryTree = async (req, res) => {
@@ -121,13 +144,13 @@ export const getCategoryTree = async (req, res) => {
     const categories = await Category.find().lean(); // .lean() for better performance
 
     // Transform the flat list into a nested tree
-    // const categoryTree = buildCategoryTree(categories);
+    const categoryTree = buildCategoryTree(categories);
 
     // Send the response
     res.status(200).json({
       success: true,
       message: "Categories fetched successfully",
-      data: categories,
+      data: categoryTree,
     });
   } catch (error) {
     console.error("Error fetching categories:", error);
