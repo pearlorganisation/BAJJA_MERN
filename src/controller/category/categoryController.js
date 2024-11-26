@@ -106,29 +106,17 @@ const buildCategoryTree = (
     return [];
   }
 
-  return categories
-    .filter((category) => category.parent_id === parentId)
+  return categories // [all categories]
+    .filter((category) => category.parent_id === parentId) // [{}, {}, {}] All parent here, parent_id = null
     .map((category) => {
-      // console.log(
-      //   chalk.yellow(
-      //     JSON.stringify({
-      //       id: category.gptId,
-      //       name: category.name,
-      //       path: category.path,
-      //       children: buildCategoryTree(
-      //         categories,
-      //         category.gptId,
-      //         depth + 1,
-      //         maxDepth
-      //       ), // Recursive call
-      //     })
-      //   )
-      // );
       return {
-        id: category.gptId,
+        _id: category._id,
+        gptId: category.gptId,
         name: category.name,
         path: category.path,
+        type: category.type, // Include the type field
         children: buildCategoryTree(
+          // Passing categories and parent_id
           categories,
           category.gptId,
           depth + 1,
@@ -138,29 +126,42 @@ const buildCategoryTree = (
     });
 };
 
-export const getCategoryTree = async (req, res) => {
-  try {
-    // Fetch all categories from the database
-    const categories = await Category.find().lean(); // .lean() for better performance
+// export const getCategoryTree = asyncHandler(async (req, res, next) => {
+//   // Fetch all categories from the database
+//   const categories = await Category.find().lean();
 
-    // Transform the flat list into a nested tree
-    const categoryTree = buildCategoryTree(categories);
+//   // Check if categories exist
+//   if (!categories || categories.length === 0) {
+//     return next(new ApiError("No categories available.", 404));
+//   }
 
-    // Send the response
-    res.status(200).json({
-      success: true,
-      message: "Categories fetched successfully",
-      data: categoryTree,
-    });
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-    res.status(500).json({
-      success: false,
-      message: "Error fetching categories",
-      error: error.message,
-    });
+//   // Transform the flat list into a nested tree
+//   const categoryTree = buildCategoryTree(categories);
+
+//   // Send the response
+//   res.status(200).json({
+//     success: true,
+//     message: "Categories fetched successfully.",
+//     data: categoryTree,
+//   });
+// });
+export const getCategoryTree = asyncHandler(async (req, res, next) => {
+  const { typeFilter } = req.query; // Optional filter by type
+  const categories = await Category.find(
+    typeFilter ? { type: typeFilter } : {}
+  ).lean();
+  // console.log(categories);
+  if (!categories || categories.length === 0) {
+    return next(new ApiError("No categories available.", 404));
   }
-};
+
+  const categoryTree = buildCategoryTree(categories);
+  res.status(200).json({
+    success: true,
+    message: "Categories fetched successfully.",
+    data: categoryTree,
+  });
+});
 
 export const insertCategory = async (req, res) => {
   try {
