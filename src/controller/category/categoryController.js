@@ -146,9 +146,10 @@ const buildCategoryTree = (
 //   });
 // });
 export const getCategoryTree = asyncHandler(async (req, res, next) => {
-  const { typeFilter } = req.query; // Optional filter by type
+  const { type } = req.query;
+  console.log(type);
   const categories = await Category.find(
-    typeFilter ? { type: typeFilter } : {}
+    type ? { type: { $in: type } } : {}
   ).lean();
   // console.log(categories);
   if (!categories || categories.length === 0) {
@@ -162,6 +163,55 @@ export const getCategoryTree = asyncHandler(async (req, res, next) => {
     data: categoryTree,
   });
 });
+// export const getCategoryTree = asyncHandler(async (req, res, next) => {
+//   const { type, page = 1, limit = 10 } = req.query;
+
+//   // Ensure `page` and `limit` are numbers
+//   const pageNum = parseInt(page, 10);
+//   const limitNum = parseInt(limit, 10);
+
+//   // Query for top-level nodes
+//   const query = { ...(type ? { type } : {}), parent_id: null };
+//   const totalTopLevel = await Category2.countDocuments(query);
+//   const topLevelNodes = await Category2.find(query)
+//     .skip((pageNum - 1) * limitNum)
+//     .limit(limitNum)
+//     .lean();
+
+//   if (!topLevelNodes || topLevelNodes.length === 0) {
+//     return next(new ApiError("No categories available.", 404));
+//   }
+
+//   // Fetch descendants for each top-level node
+//   const fetchDescendants = async (parentId) => {
+//     const children = await Category2.find({ parent_id: parentId }).lean();
+//     return Promise.all(
+//       children.map(async (child) => ({
+//         ...child,
+//         children: await fetchDescendants(child.gptId),
+//       }))
+//     );
+//   };
+
+//   const categoryTree = await Promise.all(
+//     topLevelNodes.map(async (node) => ({
+//       ...node,
+//       children: await fetchDescendants(node.gptId),
+//     }))
+//   );
+
+//   res.status(200).json({
+//     success: true,
+//     message: "Categories fetched successfully.",
+//     data: categoryTree,
+//     pagination: {
+//       total: totalTopLevel,
+//       page: pageNum,
+//       limit: limitNum,
+//       totalPages: Math.ceil(totalTopLevel / limitNum),
+//     },
+//   });
+// });
 
 export const insertCategory = async (req, res) => {
   try {
