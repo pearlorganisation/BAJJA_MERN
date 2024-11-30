@@ -5,36 +5,26 @@ import { ApiResponse } from "../../utils/ApiResponse.js";
 import fs from "fs";
 import GoodsCategory from "../../models/category/goodsCategory.js";
 import ServicesCategory from "../../models/category/servicesCategories.js";
+import { buildCategoryTree } from "../../helpers/buildCategoryTree.js";
 
 export const createCategory = asyncHandler(async (req, res, next) => {
   const category = await ServicesCategory.create(req.body);
   if (!category) {
     return next(new ApiError("Category not created", 400));
   }
-  return res.status(201).json({
-    success: true,
-    message: "Category is created",
-    data: category,
-  });
+  return res.status(201).json(new ApiResponse("Category is created", category));
 });
 
 export const getAllServicesCategories = asyncHandler(async (req, res, next) => {
-  const { type } = req.query;
-  const query = type ? { type } : {};
-
-  const message = type
-    ? "No categories found for the given type."
-    : "No categories available.";
-  const categories = await ServicesCategory.find(query);
+  const categories = await ServicesCategory.find();
 
   if (!categories || categories.length === 0) {
     return next(new ApiError(message, 400));
   }
-  return res.status(200).json({
-    success: true,
-    message: "All Services Categories are found",
-    data: categories,
-  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse("All Services Categories are found", categories));
 });
 
 // export const updateCategoryById = asyncHandler(async (req, res, next) => {
@@ -93,70 +83,19 @@ export const getAllServicesCategories = asyncHandler(async (req, res, next) => {
 //     .json(new ApiResponse("Category is deleted", null, 200));
 // });
 
-// Recursive function to build category tree
-const buildCategoryTree = (
-  categories,
-  parentId = null,
-  depth = 0,
-  maxDepth = 50
-) => {
-  if (depth > maxDepth) {
-    console.warn(`Max depth reached at parentId: ${parentId}`);
-    return [];
-  }
-
-  return categories // [all categories]
-    .filter((category) => category.parent_id === parentId) // [{}, {}, {}] All parent here, parent_id = null
-    .map((category) => {
-      return {
-        _id: category._id,
-        gptId: category.gptId,
-        name: category.name,
-        path: category.path,
-        type: category.type, // Include the type field
-        children: buildCategoryTree(
-          // Passing categories and parent_id
-          categories,
-          category.gptId,
-          depth + 1,
-          maxDepth
-        ), // Recursive call
-      };
-    });
-};
-
-// export const getCategoryTree = asyncHandler(async (req, res, next) => {
-//   // Fetch all categories from the database
-//   const categories = await Category.find().lean();
-
-//   // Check if categories exist
-//   if (!categories || categories.length === 0) {
-//     return next(new ApiError("No categories available.", 404));
-//   }
-
-//   // Transform the flat list into a nested tree
-//   const categoryTree = buildCategoryTree(categories);
-
-//   // Send the response
-//   res.status(200).json({
-//     success: true,
-//     message: "Categories fetched successfully.",
-//     data: categoryTree,
-//   });
-// });
 export const getAllGoodsCategoryTree = asyncHandler(async (req, res, next) => {
   const categories = await GoodsCategory.find();
-  // console.log(categories);
+
   if (!categories || categories.length === 0) {
     return next(new ApiError("No categories available.", 404));
   }
 
   const categoryTree = buildCategoryTree(categories);
-  res.status(200).json({
-    success: true,
-    message: "Goods Categories fetched successfully.",
-    data: categoryTree,
-  });
+  res
+    .status(200)
+    .json(
+      new ApiResponse("Goods Categories fetched successfully.", categoryTree)
+    );
 });
 // export const getCategoryTree = asyncHandler(async (req, res, next) => {
 //   const { type, page = 1, limit = 10 } = req.query;
