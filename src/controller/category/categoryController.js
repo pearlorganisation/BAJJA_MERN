@@ -1,46 +1,45 @@
-import Category from "../../models/category/category.js";
+import Category from "../../models/category/goodsCategory.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import ApiError from "../../utils/ApiError.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
-import Category2 from "../../models/category/category.js";
 import fs from "fs";
-import path from "path";
-import chalk from "chalk";
+import GoodsCategory from "../../models/category/goodsCategory.js";
+import ServicesCategory from "../../models/category/servicesCategories.js";
 
-// export const createCategory = asyncHandler(async (req, res, next) => {
-//   const category = await Category.create(req.body);
-//   if (!category) {
-//     return next(new ApiError("Category not created", 400));
-//   }
-//   return res.status(201).json({
-//     success: true,
-//     message: "Category is created",
-//     data: category,
-//   });
-// });
+export const createCategory = asyncHandler(async (req, res, next) => {
+  const category = await ServicesCategory.create(req.body);
+  if (!category) {
+    return next(new ApiError("Category not created", 400));
+  }
+  return res.status(201).json({
+    success: true,
+    message: "Category is created",
+    data: category,
+  });
+});
 
-// export const getAllCategories = asyncHandler(async (req, res, next) => {
-//   const { type } = req.query;
-//   const query = type ? { type } : {};
+export const getAllServicesCategories = asyncHandler(async (req, res, next) => {
+  const { type } = req.query;
+  const query = type ? { type } : {};
 
-//   const message = type
-//     ? "No categories found for the given type."
-//     : "No categories available.";
-//   const categories = await Category.find(query);
+  const message = type
+    ? "No categories found for the given type."
+    : "No categories available.";
+  const categories = await ServicesCategory.find(query);
 
-//   if (!categories || categories.length === 0) {
-//     return next(new ApiError(message, 400));
-//   }
-//   return res.status(200).json({
-//     success: true,
-//     message: "All categories are found",
-//     data: categories,
-//   });
-// });
+  if (!categories || categories.length === 0) {
+    return next(new ApiError(message, 400));
+  }
+  return res.status(200).json({
+    success: true,
+    message: "All Services Categories are found",
+    data: categories,
+  });
+});
 
 // export const updateCategoryById = asyncHandler(async (req, res, next) => {
 //   const { categoryId } = req.params;
-//   const category = await Category.findById(categoryId);
+//   const category = await ServicesCategory.findById(categoryId);
 
 //   if (!category) {
 //     return next(new ApiResponse("Category not found", 404));
@@ -83,7 +82,7 @@ import chalk from "chalk";
 // });
 
 // export const deleteCategoryById = asyncHandler(async (req, res, next) => {
-//   const deletedCategory = await Category.findByIdAndDelete(
+//   const deletedCategory = await ServicesCategory.findByIdAndDelete(
 //     req.params?.categoryId
 //   ); // Return null if doc not found, if found return deleted doc
 //   if (!deletedCategory) {
@@ -145,12 +144,8 @@ const buildCategoryTree = (
 //     data: categoryTree,
 //   });
 // });
-export const getCategoryTree = asyncHandler(async (req, res, next) => {
-  const { type } = req.query;
-  console.log(type);
-  const categories = await Category.find(
-    type ? { type: { $in: type } } : {}
-  ).lean();
+export const getAllGoodsCategoryTree = asyncHandler(async (req, res, next) => {
+  const categories = await GoodsCategory.find();
   // console.log(categories);
   if (!categories || categories.length === 0) {
     return next(new ApiError("No categories available.", 404));
@@ -159,7 +154,7 @@ export const getCategoryTree = asyncHandler(async (req, res, next) => {
   const categoryTree = buildCategoryTree(categories);
   res.status(200).json({
     success: true,
-    message: "Categories fetched successfully.",
+    message: "Goods Categories fetched successfully.",
     data: categoryTree,
   });
 });
