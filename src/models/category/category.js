@@ -9,7 +9,7 @@ const subCategorySchema = new mongoose.Schema(
   },
   { _id: true }
 );
-const servicesCategorySchema = new mongoose.Schema(
+const categorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -18,15 +18,14 @@ const servicesCategorySchema = new mongoose.Schema(
     },
     type: {
       type: String,
+      enum: ["Goods", "Services"],
+      required: [true, "Category type is required"],
     },
     sub_categories: [subCategorySchema],
   },
   { timestamps: true }
 );
 
-const ServicesCategory = mongoose.model(
-  "ServicesCategory",
-  servicesCategorySchema
-);
+const Category = mongoose.model("Category", categorySchema);
 
-export default ServicesCategory;
+export default Category;
